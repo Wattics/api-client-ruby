@@ -21,9 +21,8 @@ require 'api_client_ruby'
 agent = Agent.getInstance
 config = Config.new(:DEVELOPMENT,'username', 'password')
 sm = SimpleMeasurement.new
-sm.setId('meter-id' + rand(10).to_s)
-sm.setValue((rand*100).round(3))
+sm.setId('meter-id-01')
+sm.setValue(12.3)
 sm.setTimestamp(Time.now)
-sleep(0.001)
 agent.send(sm, config)
 ```
