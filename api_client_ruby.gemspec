@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Juan Couso"]
   spec.email         = ["juan.couso@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = "This gem connects with Wattics API"
+  spec.description   = "The gem connects with the wattics API to send over data to the wattics plataform"
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -23,9 +23,8 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  spec.files         = Dir['lib/**/*.rb']
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
@@ -33,4 +32,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_dependency 'rest-client', "~> 2.0"
+  spec.add_dependency 'json', "~> 2.1"
+  spec.add_dependency 'thread', "~> 0.2"
+  spec.add_dependency 'concurrent-ruby', "~> 1.0"
+
 end
