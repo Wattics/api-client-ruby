@@ -41,7 +41,6 @@ require 'concurrent'
 
             begin
               @response = @client.send(@measurement, @config)
-              [@response.code, @measurement.getTimestamp]
 
               if @agent != nil
                 @agent.reportSentMeasurement(@measurement, @response)
@@ -51,11 +50,13 @@ require 'concurrent'
                 raise response.response
               end
 
+              puts [@response.code, @measurement.getTimestamp]
+
               break
 
             rescue Exception => e
               return e
-              sleep 1
+              sleep 1 #change this to 60
             end
           end
 

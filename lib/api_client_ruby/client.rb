@@ -1,3 +1,4 @@
+require 'rest-client'
 
   class Client
     def send(measurement, config)

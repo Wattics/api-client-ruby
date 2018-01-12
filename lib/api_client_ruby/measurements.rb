@@ -1,3 +1,5 @@
+require 'json'
+require 'time'
 
   class Measurement
     attr_reader :timestamp
