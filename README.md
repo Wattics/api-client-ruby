@@ -19,13 +19,11 @@ Here is some basic commands to get you started with the API. Remember to use a v
 ```ruby
 require 'api_client_ruby'
 agent = Agent.getInstance
-config = Config.new(:DEVELOPMENT,'username', 'passoword')
-50.times {
-  sm = SimpleMeasurement.new
-  sm.setId('meter-id' + rand(10).to_s)
-  sm.setValue((rand*100).round(3))
-  sm.setTimestamp(Time.now)
-  sleep(0.001)
-  agent.send(sm, config)
-}
+config = Config.new(:DEVELOPMENT,'username', 'password')
+sm = SimpleMeasurement.new
+sm.setId('meter-id' + rand(10).to_s)
+sm.setValue((rand*100).round(3))
+sm.setTimestamp(Time.now)
+sleep(0.001)
+agent.send(sm, config)
 ```
