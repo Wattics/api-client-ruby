@@ -16,10 +16,7 @@
 
     def self.getInstance(maximumParallelSenders=0)
       @@mutex.synchronize do
-        if @singleton_instance == nil
-          @singleton_instance = Agent.new(maximumParallelSenders)
-        end
-        return @singleton_instance
+        @@instance ||= new(maximumParallelSenders)
       end
     end
 
