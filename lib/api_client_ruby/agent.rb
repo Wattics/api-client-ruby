@@ -22,9 +22,9 @@
 
     def dispose
       @@mutex.synchronize do
-        unless @singleton_instance.nil?
-          @singleton_instance.agentThreadGroup.list.each { |thread| thread.kill }
-          @singleton_instance = nil
+        unless @@instance.nil?
+          @@instance.agentThreadGroup.list.each { |thread| thread.kill }
+          @@instance = nil
         end
       end
     end
@@ -33,19 +33,18 @@
       @agentThreadGroup.add( Thread.new {
         begin
           loop do
-            # have to implement an iterator
-            # iterator = enqueuedMeasurementsWithConfig.each { |key| enqueuedMeasurementsWithConfig[key].each{ |measurementsWithConfig| measurementsWithConfig }}
-            # implement hasNext
-            # next unless iterator.hasNext
-            # sleep_fix
-
-            # channelId = iterator.next
-
-            # processor = @processorPool.getProcessor(channelId)
-
-            # next if processor.nil?
-            # sleep_fix
-
+            key, values = enqueuedMeasurementsWithConfig.first
+            if enqueuedMeasurementsWithConfig.empty?
+              sleep_fix
+              next
+            end
+            processor = @processorPool.getProcessor(key);
+            if processor.nil?
+              sleep_fix
+              next
+            end
+            enqueuedMeasurementsWithConfig.delete(key)
+            processor.process(values);
           end
         rescue ThreadError
         end
