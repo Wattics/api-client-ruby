@@ -23,7 +23,7 @@ agent = Agent.getInstance
 agent.addMeasurementSentHandler do
   -> (measurement, response) {
     puts measurement
-    puts response
+    puts response.code
   }
 end
 
