@@ -52,19 +52,19 @@
     end
 
     def startMeasurementSentHandlerDispatcher
-      @agentThreadGroup.add( Thread.new {
-        begin
-          loop do
-            # array = @sentMeasurementsWithContext.pop
-            # measurement = array[0]
-            # response = array[1]
-            #response.code
-            #@measurementSentHandlerList.each { |measurementSentHandler| }
-          end
-        rescue ThreadError
+    @agentThreadGroup.add( Thread.new {
+      begin
+        loop do
+          array = @sentMeasurementsWithContext.pop
+          measurement = array[0]
+          response = array[1]
+          #@measurementSentHandlerList = (r) -> { }
+          addMeasurementSentHandler(measurement,response)
         end
-        })
-    end
+      rescue ThreadError
+      end
+     })
+  end
 
     def sleep_fix
       sleep(100)
@@ -92,10 +92,18 @@
           @enqueuedMeasurementsWithConfig[measurement.getId] << measurementWithConfig
         end
       end
+
+      if @sentMeasurementsWithContext.isEmpty? #wait until there is at least one callback to get threads going
+        sleep 0.1
+      end
     end
 
     def reportSentMeasurement(measurement, response)
       @sentMeasurementsWithContext << [measurement, response]
+      # if @sentMeasurementsWithContext.isEmpty?
+      #   sleep 1
+      #   next
+      # end
     end
 
     def addMeasurementSentHandler
