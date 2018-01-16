@@ -37,78 +37,42 @@ RSpec.describe ApiClientRuby do
         measurementList << electricityMeasurementFactory.build
         measurementList << simpleMeasurementFactory.build
       }
-      agent.send(measurementList, dummy_config);
+      agent.send(measurementList, dummy_config)
       countDownLatch.wait()
       expect(countDownLatch.count).to be_equal 0
+    end
+
+    it "should sort before sending" do
+      $countDownLatch = Concurrent::CountDownLatch.new(12)
+      $sentMeasurements =  Concurrent::Array.new
+      #binding.pry
+      class MockClient
+        def send(measurement, config)
+          #binding.pry
+          $sentMeasurements << measurement
+          $countDownLatch.count_down
+          nil
+        end
+      end
+      agent = Agent.getInstance
+      simpleMeasurementFactory = SimpleMeasurementFactory.getInstance
+      simpleMeasurementFactory.setId("channelId")
+      measurementList = []
+      hours = 1
+      12.times {
+        simpleMeasurementFactory.setTimestamp(Time.now - 60*60*hours)
+        measurementList << simpleMeasurementFactory.build
+        hours += 1
+      }
+      agent.send(measurementList, dummy_config)
+      $countDownLatch.wait();
+      #binding.pry
+      measurementList.sort_by { |x| x.getTimestamp }
+      expect(measurementList).to match_array($sentMeasurements)
     end
   end
 end
 
-
-
-
-
-
-#main test
-# package com.wattics;
-
-# import com.wattics.internal.Client;
-# import org.apache.http.client.methods.CloseableHttpResponse;
-# import org.junit.After;
-# import org.junit.Assert;
-# import org.junit.Before;
-# import org.junit.Test;
-
-# import java.io.IOException;
-# import java.util.ArrayList;
-# import java.util.List;
-# import java.util.concurrent.CopyOnWriteArrayList;
-# import java.util.concurrent.CountDownLatch;
-
-# import static com.wattics.Config.DUMMY_CONFIG;
-# import static java.time.LocalDateTime.now;
-# import static java.util.Comparator.comparing;
-# import static java.util.stream.Collectors.toList;
-
-# public class MainTest {
-#     @Before
-#     public void setUp() throws Exception {
-#         ClientFactory.setInstance(new ClientFactory() {
-#             @Override
-#             public Client createClient() {
-#                 return new MockClient();
-#             }
-#         });
-#     }
-
-#     @After
-#     public void tearDown() throws Exception {
-#         ClientFactory.setInstance(null);
-#         Agent.dispose();
-#     }
-
-#     @Test
-#     public void testAllMeasurementsAreSent() throws InterruptedException {
-#         CountDownLatch countDownLatch = new CountDownLatch(24);
-
-#         Agent agent = Agent.getInstance();
-#         agent.addMeasurementSentHandler((measurement, closeableHttpResponse) -> {
-#             countDownLatch.countDown();
-#         });
-
-#         ElectricityMeasurementFactory electricityMeasurementFactory = ElectricityMeasurementFactory.getInstance();
-#         SimpleMeasurementFactory simpleMeasurementFactory = SimpleMeasurementFactory.getInstance();
-
-#         List<Measurement> measurementList = new ArrayList<>();
-#         for (int i = 0; i < 12; i++) {
-#             measurementList.add(electricityMeasurementFactory.build());
-#             measurementList.add(simpleMeasurementFactory.build());
-#         }
-
-#         agent.send(measurementList, DUMMY_CONFIG);
-
-#         countDownLatch.await();
-#     }
 
 #     @Test
 #     public void testThatMeasurementsAreSortedBeforeBeingSent() throws InterruptedException {
