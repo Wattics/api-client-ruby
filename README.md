@@ -19,7 +19,16 @@ Here is some basic commands to get you started with the API. Remember to use a v
 ```ruby
 require 'api_client_ruby'
 agent = Agent.getInstance
+
+agent.addMeasurementSentHandler do
+  -> (measurement, response) {
+    puts measurement
+    puts response
+  }
+end
+
 config = Config.new(:DEVELOPMENT,'username', 'password')
+
 sm = SimpleMeasurement.new
 sm.setId('meter-id-01')
 sm.setValue(12.3)

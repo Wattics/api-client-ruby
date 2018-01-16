@@ -59,7 +59,7 @@
           measurement = array[0]
           response = array[1]
           #@measurementSentHandlerList = (r) -> { }
-          addMeasurementSentHandler(measurement,response)
+          @measurementSentHandlerList.call(measurement, response)
         end
       rescue ThreadError
       end
@@ -106,8 +106,8 @@
       # end
     end
 
-    def addMeasurementSentHandler
-
+    def addMeasurementSentHandler(&block)
+      @measurementSentHandlerList = yield
     end
   end
 
