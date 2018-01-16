@@ -50,7 +50,7 @@ require 'concurrent'
                 raise response.response
               end
 
-              puts [@response.code, @measurement.getTimestamp]
+              [@response.code, @measurement]
 
               break
 

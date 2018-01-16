@@ -72,19 +72,26 @@
 
     def send(measurement, config)
       if measurement.kind_of?(Array)
+        measurementGroups =  measurement.group_by{ |measurement| measurement.getId }
+        measurementGroups.each do |channelId, measurementsForChannelId|
+          measurementsWithConfig =  measurementsForChannelId.map { |measurement| MeasurementWithConfig.new(measurement, config) }
+          @processorAlreadyBoundToChannelId = @processorPool.getProcessor(channelId)
+          unless @processorAlreadyBoundToChannelId.nil?
+            @processorAlreadyBoundToChannelId.process(measurementsWithConfig)
+          else
+            @enqueuedMeasurementsWithConfig[channelId] += measurementsWithConfig
+          end
+        end
+
       else
         measurementWithConfig = MeasurementWithConfig.new(measurement, config)
         @processorAlreadyBoundToChannelId = @processorPool.getProcessor(measurement.getId)
-
-        #binding.pry
         unless @processorAlreadyBoundToChannelId.nil?
           @processorAlreadyBoundToChannelId.process(measurementWithConfig)
         else
           @enqueuedMeasurementsWithConfig[measurement.getId] << measurementWithConfig
         end
-        #binding.pry
       end
-
     end
 
     def reportSentMeasurement(measurement, response)

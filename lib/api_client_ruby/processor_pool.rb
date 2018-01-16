@@ -12,16 +12,14 @@
 
     def getProcessor(channelId)
       @mutex.synchronize do
-
         processor = @processors[channelId]
         return processor unless @processor.nil?
         if @processors.size < @max_processors
           @processors[channelId] = spawnNewProcessor
-          processor
+          @processors[channelId]
         else
           rebindProcessorToChannelId(channelId)
         end
-
       end
     end
 
