@@ -1,18 +1,48 @@
 require 'api_client_ruby'
+require 'concurrent'
+#require 'pry-byebug'
 #require 'spec_helper'
 
 
 RSpec.describe ApiClientRuby do
-  it "has a version number" do
-    expect(ApiClientRuby::VERSION).not_to be nil
+  before(:all) do
+    class ClientFactory
+      def createClient
+        MockClient.new
+      end
+    end
   end
 
-  # it "does something useful" do
-  #   expect(false).to eq(true)
-  # end
-end
+  let(:dummy_config) { Config.new(nil, nil, nil)}
+  #let(:agent) { Agent.getInstance }
 
-puts SimpleMeasurementFactory.getInstance.build
+  # after(:all) do
+  #   ClientFactory.setInstance(nil)
+  #   Agent.dispose
+  # end
+  #binding.pry
+  context "Measurements" do
+    it "should send all" do
+      countDownLatch = Concurrent::CountDownLatch.new(24)
+      agent = Agent.getInstance
+      agent.addMeasurementSentHandler do
+        -> (measurement, response) {
+          countDownLatch.count_down
+        }
+      end
+      electricityMeasurementFactory = ElectricityMeasurementFactory.getInstance
+      simpleMeasurementFactory = SimpleMeasurementFactory.getInstance
+      measurementList = []
+      12.times {
+        measurementList << electricityMeasurementFactory.build
+        measurementList << simpleMeasurementFactory.build
+      }
+      agent.send(measurementList, dummy_config);
+      countDownLatch.wait()
+      expect(countDownLatch.count).to be_equal 0
+    end
+  end
+end
 
 
 

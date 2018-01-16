@@ -15,14 +15,14 @@ class Client
 end
 
 class ClientFactory
-  @@instance = ClientFactory.new
+  #@@instance = ClientFactory.new
 
-  def setInstance(clientFactory)
-    @instance = clientFactory
+  def self.setInstance(clientFactory)
+    @@instance = clientFactory
   end
 
   def self.getInstance
-    @@instance
+    @@instance ||= new
   end
 
   def createClient

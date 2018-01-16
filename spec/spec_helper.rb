@@ -313,7 +313,7 @@ class ElectricityMeasurementFactory
 end
 
 class MockClient < Client
-  def self.send(measurement, config)
+  def send(measurement, config)
     nil
   end
 end

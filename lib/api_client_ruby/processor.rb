@@ -36,6 +36,7 @@ class Processor
         @measurement = @measurementWithConfig.getMeasurement
         @config = @measurementWithConfig.getConfig
         loop do
+          #binding.pry
           begin
             @response = @client.send(@measurement, @config)
             if @agent != nil
