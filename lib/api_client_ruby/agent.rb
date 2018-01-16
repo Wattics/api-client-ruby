@@ -1,9 +1,6 @@
-
   class Agent
     @@mutex = Mutex.new
-
-    attr_reader :sentMeasurementsWithContext
-
+    #attr_reader :sentMeasurementsWithContext
     def initialize(maximumParallelSenders = 0)
       @agentThreadGroup = ThreadGroup.new
       @processorPool = ProcessorPool.new(self, @agentThreadGroup, maximumParallelSenders)
@@ -58,7 +55,6 @@
           array = @sentMeasurementsWithContext.pop
           measurement = array[0]
           response = array[1]
-          #@measurementSentHandlerList = (r) -> { }
           @measurementSentHandlerList.call(measurement, response)
         end
       rescue ThreadError
@@ -100,10 +96,6 @@
 
     def reportSentMeasurement(measurement, response)
       @sentMeasurementsWithContext << [measurement, response]
-      # if @sentMeasurementsWithContext.isEmpty?
-      #   sleep 1
-      #   next
-      # end
     end
 
     def addMeasurementSentHandler(&block)
