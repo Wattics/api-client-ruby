@@ -25,13 +25,22 @@ agent.addMeasurementSentHandler do
     puts measurement
     puts response.code
   }
-end
 
+end
+# config = Config.new(:PRODUCTION, "username", "password");
 config = Config.new(:DEVELOPMENT,'username', 'password')
 
-sm = SimpleMeasurement.new
-sm.setId('meter-id-01')
-sm.setValue(12.3)
-sm.setTimestamp(Time.now)
-agent.send(sm, config)
+simple_measurement = SimpleMeasurement.new
+simple_measurement.setId('meter-id-01')
+simple_measurement.setValue(12.3)
+simple_measurement.setTimestamp(Time.now)
+agent.send(simple_measurement, config)
+
+electricity_measurement = ElectricityMeasurement.new
+electricity_measurement.setId("meter-id-02");
+electricity_measurement.setTimestamp(now());
+electricity_measurement.setActivePowerPhaseA(5.12);
+electricity_measurement.setActiveEnergyPhaseA(1.5);
+# ...
+gent.send(electricity_measurement, config);
 ```

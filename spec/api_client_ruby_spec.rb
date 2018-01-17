@@ -13,6 +13,7 @@ RSpec.describe ApiClientRuby do
   let(:dummy_config) { Config.new(nil, nil, nil)}
   context "Measurements" do
     it "should send all" do
+      #binding.pry
       countDownLatch = Concurrent::CountDownLatch.new(24)
       agent = Agent.getInstance
       agent.addMeasurementSentHandler do
@@ -67,7 +68,7 @@ RSpec.describe ApiClientRuby do
         def send(measurement, config)
           if measurement.getId == "0"
             begin
-              sleep 0.0001
+              sleep 0.001
             rescue ThreadError
             end
           end
