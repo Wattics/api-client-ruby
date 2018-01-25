@@ -49,7 +49,7 @@ class Processor
             end
             break
            rescue Exception => e
-            @logger.error("Could not send #{@measurement}, Server Response: #{e}")
+            @logger.error("Could not send #{@measurement}, Server Response: #{e.response.code}")
             sleep 60
           end
         end
