@@ -11,7 +11,7 @@ class ProcessorPool
   def getProcessor(channelId)
     @mutex.synchronize do
       processor = @processors[channelId]
-      return processor unless @processor.nil?
+      return processor unless processor.nil?
       if @processors.size < @max_processors
         @processors[channelId] = spawnNewProcessor
         @processors[channelId]
