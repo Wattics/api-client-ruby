@@ -7,7 +7,7 @@ class Processor
     @client = ClientFactory.getInstance.createClient
     @measurementsWithConfig = PriorityBlockingQueue.new
     @semaphore = Concurrent::Semaphore.new(0)
-    @isSending = false;
+    @isSending = false
     @mutex = Mutex.new
     @logger = Logger.new(STDOUT)
     @logger.level = Logger::WARN
@@ -15,7 +15,7 @@ class Processor
 
   def process(measurementWithConfig)
     @measurementsWithConfig << measurementWithConfig
-    if measurementWithConfig.kind_of?(Array)
+    if measurementWithConfig.is_a?(Array)
       @semaphore.release(measurementWithConfig.size)
     else
       @semaphore.release
@@ -29,35 +29,33 @@ class Processor
   end
 
   def run
-    begin
+    loop do
+      @semaphore.acquire
+      @mutex.synchronize do
+        @measurementWithConfig = @measurementsWithConfig.pop
+        @isSending = true
+      end
+      @measurement = @measurementWithConfig.getMeasurement
+      @config = @measurementWithConfig.getConfig
       loop do
-        @semaphore.acquire
-        @mutex.synchronize do
-          @measurementWithConfig = @measurementsWithConfig.pop
-          @isSending = true
-        end
-        @measurement = @measurementWithConfig.getMeasurement
-        @config = @measurementWithConfig.getConfig
-        loop do
-          begin
-            @response = @client.send(@measurement, @config)
-            if (@agent != nil && @response.code < 400)
-              @agent.reportSentMeasurement(@measurement, @response)
-            end
-            if (@agent != nil && @response.code >= 400)
-              @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath("//h1").text}")
-            end
-            break
-           rescue Exception => e
-            @logger.error("Could not send #{@measurement}, Server Response: #{e}")
-            sleep 60
+        begin
+          @response = @client.send(@measurement, @config)
+          if !@agent.nil? && @response.code < 400
+            @agent.reportSentMeasurement(@measurement, @response)
           end
-        end
-        @mutex.synchronize do
-          @isSending = false
+          if !@agent.nil? && @response.code >= 400
+            @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+          end
+          break
+        rescue Exception => e
+          @logger.error("Could not send #{@measurement}, Server Response: #{e}")
+          sleep 60
         end
       end
-    rescue Exception => e
+      @mutex.synchronize do
+        @isSending = false
+      end
     end
+  rescue Exception => e
   end
 end
