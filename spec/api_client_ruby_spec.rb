@@ -13,7 +13,6 @@ RSpec.describe ApiClientRuby do
   let(:dummy_config) { Config.new(nil, nil, nil)}
   context "Measurements" do
     it "should send all" do
-      #binding.pry
       countDownLatch = Concurrent::CountDownLatch.new(24)
       agent = Agent.getInstance
       agent.addMeasurementSentHandler do
