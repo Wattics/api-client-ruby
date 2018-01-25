@@ -132,19 +132,25 @@ class ElectricityMeasurement < Measurement
     @reactivePowerPhaseC = reactivePowerPhaseC
   end
 
-  attr_reader :getApparentPowerPhaseA
+  def getApparentPowerPhaseA
+    @apparentPowerPhaseA
+  end
 
   def setApparentPowerPhaseA(apparentPowerPhaseA)
     @apparentPowerPhaseA = apparentPowerPhaseA
   end
 
-  attr_reader :getApparentPowerPhaseB
+  def getApparentPowerPhaseB
+    @apparentPowerPhaseB
+  end
 
   def setApparentPowerPhaseB(apparentPowerPhaseB)
     @apparentPowerPhaseB = apparentPowerPhaseB
   end
 
-  attr_reader :getApparentPowerPhaseC
+  def getApparentPowerPhaseC
+    @apparentPowerPhaseC
+  end
 
   def setApparentPowerPhaseC(apparentPowerPhaseC)
     @apparentPowerPhaseC = apparentPowerPhaseC

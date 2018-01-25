@@ -14,12 +14,12 @@ class BlockingQueue
 
   def pop
     @mutex.synchronize do
-      @received.wait(@mutex) while isEmpty?
+      @received.wait(@mutex) while is_empty?
       @queue.shift
     end
   end
 
-  def isEmpty?
+  def is_empty?
     @queue.empty?
   end
 end
@@ -29,7 +29,7 @@ class PriorityBlockingQueue < BlockingQueue
     @mutex.synchronize do
       @queue << x
       @queue.flatten!
-      @queue.sort_by { |x| x.getMeasurement.timestamp }
+      @queue.sort!
       @received.signal
     end
   end

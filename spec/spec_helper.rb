@@ -1,10 +1,10 @@
-require "bundler/setup"
-require "api_client_ruby"
+require 'bundler/setup'
+require 'api_client_ruby'
 require 'securerandom'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.example_status_persistence_file_path = '.rspec_status'
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
@@ -13,7 +13,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
-
 
 class SimpleMeasurementFactory
   @@instance = new
@@ -162,7 +161,7 @@ class ElectricityMeasurementFactory
     @activePowerPhaseC ||= rand
   end
 
-  def setActivePowerPhaseC(activePowerPhaseC)
+  def setActivePowerPhaseC(_activePowerPhaseC)
     @activePowerPhaseC = ActivePowerPhaseC
   end
 
@@ -306,14 +305,13 @@ class ElectricityMeasurementFactory
     @lineToLineVoltagePhaseBC ||= rand
   end
 
-  def setLineToLineVoltagePhaseBC(lineToLineVoltagePhaseBC)
+  def setLineToLineVoltagePhaseBC(_lineToLineVoltagePhaseBC)
     @lineToLineVoltagePhaseBC = getLineToLineVoltagePhaseBC
   end
-
 end
 
 class MockClient < Client
-  def send(measurement, config)
+  def send(_measurement, _config)
     MockResponse.new
   end
 end

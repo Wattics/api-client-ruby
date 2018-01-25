@@ -4,14 +4,11 @@ require 'concurrent'
 RSpec.describe ApiClientRuby do
   before(:all) do
     class ClientFactory
-      def createClient
+      def create_client
         MockClient.new
       end
     end
   end
-
-  let(:dummy_config) { Config.new(nil, nil, nil)}
-
 
   context "with Simple Measurements Attributes and JSON" do
     let(:simple_measurement) { SimpleMeasurement.new }
@@ -50,82 +47,104 @@ RSpec.describe ApiClientRuby do
 
   end
 
-  context "Measurements" do
-    it "should send all" do
-      countDownLatch = Concurrent::CountDownLatch.new(24)
-      agent = Agent.getInstance
-      agent.addMeasurementSentHandler do
-        -> (measurement, response) {
-          countDownLatch.count_down
-        }
-      end
-      electricityMeasurementFactory = ElectricityMeasurementFactory.getInstance
-      simpleMeasurementFactory = SimpleMeasurementFactory.getInstance
-      measurementList = []
-      12.times {
-        measurementList << electricityMeasurementFactory.build
-        measurementList << simpleMeasurementFactory.build
-      }
-      agent.send(measurementList, dummy_config)
-      countDownLatch.wait()
-      expect(countDownLatch.count).to be_equal 0
-    end
+  let(:dummy_config) { Config.new(nil, nil, nil) }
 
-    it "should sort before sending" do
-      $countDownLatch = Concurrent::CountDownLatch.new(12)
-      $sentMeasurements =  Concurrent::Array.new
-      class MockClient
-        def send(measurement, config)
-          $sentMeasurements << measurement
-          $countDownLatch.count_down
-          MockResponse.new
+  context 'PriorityBlockingQueue' do
+    it 'should sort' do
+      class SortableItem
+        attr_accessor :index
+
+        def initialize(index:)
+          @index = index
+        end
+
+        def <=>(item)
+          @index <=> item.index
         end
       end
-      agent = Agent.getInstance
-      simpleMeasurementFactory = SimpleMeasurementFactory.getInstance
-      simpleMeasurementFactory.setId("channelId")
-      measurementList = []
-      hours = 1
-      12.times {
-        simpleMeasurementFactory.setTimestamp(Time.now - 60*60*hours)
-        measurementList << simpleMeasurementFactory.build
-        hours += 1
-      }
-      agent.send(measurementList, dummy_config)
-      $countDownLatch.wait();
-      measurementList.sort_by { |x| x.getTimestamp }
-      expect(measurementList).to match_array($sentMeasurements)
+
+      queue = PriorityBlockingQueue.new
+      queue << SortableItem.new(index: 2)
+      queue << SortableItem.new(index: 1)
+
+      expect(queue.pop.index).to be(1)
+      expect(queue.pop.index).to be(2)
     end
   end
 
-  context "Processor" do
-    it "should not be idle until after it sends last measurement" do
-      numberOfMeasurementsToSend = 1000
-      $countDownLatch = Concurrent::CountDownLatch.new(numberOfMeasurementsToSend)
+  context 'Measurements' do
+    it 'should send all' do
+      count_down_latch = Concurrent::CountDownLatch.new(24)
+      agent = Agent.get_instance
+      agent.add_measurement_sent_handler do
+        lambda { |_measurement, _response|
+          count_down_latch.count_down
+        }
+      end
+      electricity_measurement_factory = ElectricityMeasurementFactory.getInstance
+      simple_measurement_factory = SimpleMeasurementFactory.getInstance
+      measurement_list = []
+      12.times do
+        measurement_list << electricity_measurement_factory.build
+        measurement_list << simple_measurement_factory.build
+      end
+      agent.send(measurement_list, dummy_config)
+      count_down_latch.wait
+      expect(count_down_latch.count).to be_equal 0
+    end
+
+    it 'should sort before sending' do
+      $count_down_latch = Concurrent::CountDownLatch.new(12)
+      $sent_measurements = Concurrent::Array.new
       class MockClient
-        def send(measurement, config)
-          if measurement.getId == "0"
+        def send(measurement, _config)
+          $sent_measurements << measurement
+          $count_down_latch.count_down
+          MockResponse.new
+        end
+      end
+      agent = Agent.get_instance
+      simple_measurement_factory = SimpleMeasurementFactory.getInstance
+      simple_measurement_factory.setId('channelId')
+      measurement_list = []
+      hours = 1
+      12.times do
+        simple_measurement_factory.setTimestamp(Time.now - 60 * 60 * hours)
+        measurement_list << simple_measurement_factory.build
+        hours += 1
+      end
+      agent.send(measurement_list, dummy_config)
+      $count_down_latch.wait
+      measurement_list.sort_by(&:getTimestamp)
+      expect(measurement_list).to match_array($sent_measurements)
+    end
+  end
+
+  context 'Processor' do
+    it 'should not be idle until after it sends last measurement' do
+      number_of_measurements_to_send = 1000
+      $count_down_latch = Concurrent::CountDownLatch.new(number_of_measurements_to_send)
+      class MockClient
+        def send(measurement, _config)
+          if measurement.getId == '0'
             begin
               sleep 0.001
             rescue ThreadError
             end
           end
-          $countDownLatch.count_down
+          $count_down_latch.count_down
           MockResponse.new
         end
       end
-      agent = Agent.getInstance(2)
-      measurementFactory = SimpleMeasurementFactory.getInstance
+      agent = Agent.get_instance(2)
+      measurement_factory = SimpleMeasurementFactory.getInstance
       i = 0
-      numberOfMeasurementsToSend.times {
-        measurementFactory.setId((i%3).to_s)
-        agent.send(measurementFactory.build, dummy_config)
+      number_of_measurements_to_send.times do
+        measurement_factory.setId((i % 3).to_s)
+        agent.send(measurement_factory.build, dummy_config)
         i += 1
-      }
-      $countDownLatch.wait()
+      end
+      $count_down_latch.wait
     end
   end
 end
-
-
-

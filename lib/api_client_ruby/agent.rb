@@ -3,54 +3,54 @@ require 'concurrent'
 class Agent
   @@mutex = Mutex.new
   attr_reader :thread
-  def initialize(maximumParallelSenders = 0)
-    @agentThreadGroup = ThreadGroup.new
-    @processorPool = ProcessorPool.new(self, @agentThreadGroup, maximumParallelSenders)
-    @enqueuedMeasurementsWithConfig = Hash.new { |h, k| h[k] = [] }
-    @sentMeasurementsWithContext = BlockingQueue.new
-    @measurementSentHandlerList = Concurrent::Array.new
-    startProcessorFeeder
-    startMeasurementSentHandlerDispatcher
-    @waitSemaphore = Concurrent::Semaphore.new(0)
+  def initialize(maximum_parallel_senders = 0)
+    @agent_thread_group = ThreadGroup.new
+    @processor_pool = ProcessorPool.new(self, @agent_thread_group, maximum_parallel_senders)
+    @enqueued_measurements_with_config = Hash.new { |h, k| h[k] = [] }
+    @sent_measurements_with_context = BlockingQueue.new
+    @measurement_sent_handler_list = Concurrent::Array.new
+    start_processor_feeder
+    start_measurement_sent_handler_dispatcher
+    @wait_semaphore = Concurrent::Semaphore.new(0)
   end
   private_class_method :new
 
-  def self.getInstance(maximumParallelSenders = 0)
+  def self.get_instance(maximum_parallel_senders = 0)
     @@mutex.synchronize do
-      @@instance ||= new(maximumParallelSenders)
+      @@instance ||= new(maximum_parallel_senders)
     end
   end
 
   def self.dispose
     @@mutex.synchronize do
       unless @@instance.nil?
-        @@instance.agentThreadGroup.list.each(&:kill)
+        @@instance.agent_thread_group.list.each(&:kill)
         @@instance = nil
       end
     end
   end
 
-  def waitUntilLast
+  def wait_until_last
     Thread.new do
-      sleep 0.01 while @waitSemaphore.available_permits != 0
+      sleep 0.01 while @wait_semaphore.available_permits != 0
     end.join
   end
 
-  def startProcessorFeeder
-    @agentThreadGroup.add(Thread.new do
+  def start_processor_feeder
+    @agent_thread_group.add(Thread.new do
       begin
         loop do
-          key, values = @enqueuedMeasurementsWithConfig.first
-          if @enqueuedMeasurementsWithConfig.empty?
+          key, values = @enqueued_measurements_with_config.first
+          if @enqueued_measurements_with_config.empty?
             sleep_fix
             next
           end
-          processor = @processorPool.getProcessor(key)
+          processor = @processor_pool.get_processor(key)
           if processor.nil?
             sleep_fix
             next
           end
-          @enqueuedMeasurementsWithConfig.delete(key)
+          @enqueued_measurements_with_config.delete(key)
           processor.process(values)
         end
       rescue ThreadError
@@ -58,15 +58,15 @@ class Agent
     end)
   end
 
-  def startMeasurementSentHandlerDispatcher
-    @agentThreadGroup.add(Thread.new do
+  def start_measurement_sent_handler_dispatcher
+    @agent_thread_group.add(Thread.new do
       begin
         loop do
-          array = @sentMeasurementsWithContext.pop
+          array = @sent_measurements_with_context.pop
           next if array.nil?
           measurement = array[0]
           response = array[1]
-          @measurementSentHandlerList.each { |handler| handler.call(measurement, response) }
+          @measurement_sent_handler_list.each { |handler| handler.call(measurement, response) }
         end
       rescue ThreadError
       end
@@ -79,35 +79,35 @@ class Agent
 
   def send(measurement, config)
     if measurement.is_a?(Array)
-      @waitSemaphore.release(measurement.size)
-      measurementGroups = measurement.group_by(&:getId)
-      measurementGroups.each do |channelId, measurementsForChannelId|
-        measurementsWithConfig = measurementsForChannelId.map { |measurement| MeasurementWithConfig.new(measurement, config) }
-        @processorAlreadyBoundToChannelId = @processorPool.getProcessor(channelId)
-        if @processorAlreadyBoundToChannelId.nil?
-          @enqueuedMeasurementsWithConfig[channelId] += measurementsWithConfig
+      @wait_semaphore.release(measurement.size)
+      measurement_groups = measurement.group_by(&:getId)
+      measurement_groups.each do |channel_id, measurements_for_channel_id|
+        measurements_with_config = measurements_for_channel_id.map { |measurement| MeasurementWithConfig.new(measurement, config) }
+        @processor_already_bound_to_channel_id = @processor_pool.get_processor(channel_id)
+        if @processor_already_bound_to_channel_id.nil?
+          @enqueued_measurements_with_config[channel_id] += measurements_with_config
         else
-          @processorAlreadyBoundToChannelId.process(measurementsWithConfig)
+          @processor_already_bound_to_channel_id.process(measurements_with_config)
         end
       end
     else
-      @waitSemaphore.release
-      measurementWithConfig = MeasurementWithConfig.new(measurement, config)
-      @processorAlreadyBoundToChannelId = @processorPool.getProcessor(measurement.getId)
-      if @processorAlreadyBoundToChannelId.nil?
-        @enqueuedMeasurementsWithConfig[measurement.getId] << measurementWithConfig
+      @wait_semaphore.release
+      measurement_with_config = MeasurementWithConfig.new(measurement, config)
+      @processor_already_bound_to_channel_id = @processor_pool.get_processor(measurement.getId)
+      if @processor_already_bound_to_channel_id.nil?
+        @enqueued_measurements_with_config[measurement.getId] << measurement_with_config
       else
-        @processorAlreadyBoundToChannelId.process(measurementWithConfig)
+        @processor_already_bound_to_channel_id.process(measurement_with_config)
       end
     end
   end
 
-  def reportSentMeasurement(measurement, response)
-    @sentMeasurementsWithContext << [measurement, response]
-    @waitSemaphore.acquire
+  def report_sent_measurement(measurement, response)
+    @sent_measurements_with_context << [measurement, response]
+    @wait_semaphore.acquire
   end
 
-  def addMeasurementSentHandler
-    @measurementSentHandlerList << yield
+  def add_measurement_sent_handler
+    @measurement_sent_handler_list << yield
   end
 end
