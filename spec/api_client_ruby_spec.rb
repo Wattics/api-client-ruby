@@ -79,38 +79,189 @@ RSpec.describe ApiClientRuby do
       expect(electricity_measurement.active_power_phase_c).to be_equal active_power_phase_c
     end
     # @reactivePowerPhaseA
+    it "should set and return reactive_power_phase_a attibute" do
+      reactive_power_phase_a = rand
+      electricity_measurement.reactive_power_phase_a(reactive_power_phase_a)
+      expect(electricity_measurement.reactive_power_phase_a).to be_equal reactive_power_phase_a
+    end
     # @reactivePowerPhaseB
+    it "should set and return reactive_power_phase_b attibute" do
+      reactive_power_phase_b = rand
+      electricity_measurement.reactive_power_phase_b(reactive_power_phase_b)
+      expect(electricity_measurement.reactive_power_phase_b).to be_equal reactive_power_phase_b
+    end
     # @reactivePowerPhaseC
+    it "should set and return reactive_power_phase_c attibute" do
+      reactive_power_phase_c = rand
+      electricity_measurement.reactive_power_phase_c(reactive_power_phase_c)
+      expect(electricity_measurement.reactive_power_phase_c).to be_equal reactive_power_phase_c
+    end
     # @apparentPowerPhaseA
+    it "should set and return apparent_power_phase_a attibute" do
+      apparent_power_phase_a = rand
+      electricity_measurement.apparent_power_phase_a(apparent_power_phase_a)
+      expect(electricity_measurement.apparent_power_phase_a).to be_equal apparent_power_phase_a
+    end
     # @apparentPowerPhaseB
+    it "should set and return apparent_power_phase_b attibute" do
+      apparent_power_phase_b = rand
+      electricity_measurement.apparent_power_phase_b(apparent_power_phase_b)
+      expect(electricity_measurement.apparent_power_phase_b).to be_equal apparent_power_phase_b
+    end
     # @apparentPowerPhaseC
+    it "should set and return apparent_power_phase_c attibute" do
+      apparent_power_phase_c = rand
+      electricity_measurement.apparent_power_phase_c(apparent_power_phase_c)
+      expect(electricity_measurement.apparent_power_phase_c).to be_equal apparent_power_phase_c
+    end
     # @voltagePhaseA
+    it "should set and return voltage_phase_a attibute" do
+      voltage_phase_a = rand
+      electricity_measurement.voltage_phase_a(voltage_phase_a)
+      expect(electricity_measurement.voltage_phase_a).to be_equal voltage_phase_a
+    end
     # @voltagePhaseB
+    it "should set and return voltage_phase_b attibute" do
+      voltage_phase_b = rand
+      electricity_measurement.voltage_phase_b(voltage_phase_b)
+      expect(electricity_measurement.voltage_phase_b).to be_equal voltage_phase_b
+    end
     # @voltagePhaseC
+    it "should set and return voltage_phase_c attibute" do
+      voltage_phase_c = rand
+      electricity_measurement.voltage_phase_c(voltage_phase_c)
+      expect(electricity_measurement.voltage_phase_c).to be_equal voltage_phase_c
+    end
     # @currentPhaseA
+    it "should set and return current_phase_a attibute" do
+      current_phase_a = rand
+      electricity_measurement.current_phase_a(current_phase_a)
+      expect(electricity_measurement.current_phase_a).to be_equal current_phase_a
+    end
     # @currentPhaseB
+    it "should set and return current_phase_b attibute" do
+      current_phase_b = rand
+      electricity_measurement.current_phase_b(current_phase_b)
+      expect(electricity_measurement.current_phase_b).to be_equal current_phase_b
+    end
     # @currentPhaseC
+    it "should set and return current_phase_c attibute" do
+      current_phase_c = rand
+      electricity_measurement.current_phase_c(current_phase_c)
+      expect(electricity_measurement.current_phase_c).to be_equal current_phase_c
+    end
     # @activeEnergyPhaseA
+    it "should set and return active_energy_phase_a attibute" do
+      active_energy_phase_a = rand
+      electricity_measurement.active_energy_phase_a(active_energy_phase_a)
+      expect(electricity_measurement.active_energy_phase_a).to be_equal active_energy_phase_a
+    end
     # @activeEnergyPhaseB
+    it "should set and return active_energy_phase_b attibute" do
+      active_energy_phase_b = rand
+      electricity_measurement.active_energy_phase_b(active_energy_phase_b)
+      expect(electricity_measurement.active_energy_phase_b).to be_equal active_energy_phase_b
+    end
     # @activeEnergyPhaseC
+    it "should set and return active_energy_phase_c attibute" do
+      active_energy_phase_c = rand
+      electricity_measurement.active_energy_phase_c(active_energy_phase_c)
+      expect(electricity_measurement.active_energy_phase_c).to be_equal active_energy_phase_c
+    end
     # @lineToLineVoltagePhaseAB
+    it "should set and return line_to_line_voltage_phase_ab attibute" do
+      line_to_line_voltage_phase_ab = rand
+      electricity_measurement.line_to_line_voltage_phase_ab(line_to_line_voltage_phase_ab)
+      expect(electricity_measurement.line_to_line_voltage_phase_ab).to be_equal line_to_line_voltage_phase_ab
+    end
     # @lineToLineVoltagePhaseBC
+    it "should set and return line_to_line_voltage_phase_bc attibute" do
+      line_to_line_voltage_phase_bc = rand
+      electricity_measurement.line_to_line_voltage_phase_bc(line_to_line_voltage_phase_bc)
+      expect(electricity_measurement.line_to_line_voltage_phase_bc).to be_equal line_to_line_voltage_phase_bc
+    end
     # @lineToLineVoltagePhaseAC
+    it "should set and return line_to_line_voltage_phase_ac attibute" do
+      line_to_line_voltage_phase_ac = rand
+      electricity_measurement.line_to_line_voltage_phase_ac(line_to_line_voltage_phase_ac)
+      expect(electricity_measurement.line_to_line_voltage_phase_ac).to be_equal line_to_line_voltage_phase_ac
+    end
 
-    # it "should return correct JSON" do
-    #   id = "meter-01"
-    #   value = rand
-    #   time = Time.now
-    #   simple_measurement.id(id)
-    #   simple_measurement.timestamp(time)
-    #   simple_measurement.value(value)
-
-    #   json = "{id: #{simple_measurement.id},
-    #           tsISO8601: #{simple_measurement.timestamp},
-    #           value: #{value}
-    #           }"
-    #   expect(simple_measurement.json).to be_equal json
-    # end
+    it "should return correct JSON" do
+      id = "meter-01"
+      time = Time.now
+      value = rand
+      active_power_phase_a = rand
+      active_power_phase_b = rand
+      active_power_phase_c = rand
+      reactive_power_phase_a = rand
+      reactive_power_phase_b = rand
+      reactive_power_phase_c = rand
+      apparent_power_phase_a = rand
+      apparent_power_phase_b = rand
+      apparent_power_phase_c = rand
+      voltage_phase_a = rand
+      voltage_phase_b = rand
+      voltage_phase_c = rand
+      current_phase_a = rand
+      current_phase_b = rand
+      current_phase_c = rand
+      active_energy_phase_a = rand
+      active_energy_phase_b = rand
+      active_energy_phase_c = rand
+      line_to_line_voltage_phase_ab = rand
+      line_to_line_voltage_phase_bc = rand
+      line_to_line_voltage_phase_ac = rand
+      electricity_measurement.id(id)
+      electricity_measurement.timestamp(time)
+      electricity_measurement.active_power_phase_a(active_power_phase_a)
+      electricity_measurement.active_power_phase_b(active_power_phase_b)
+      electricity_measurement.active_power_phase_c(active_power_phase_c)
+      electricity_measurement.reactive_power_phase_a(reactive_power_phase_a)
+      electricity_measurement.reactive_power_phase_b(reactive_power_phase_b)
+      electricity_measurement.reactive_power_phase_c(reactive_power_phase_c)
+      electricity_measurement.apparent_power_phase_a(apparent_power_phase_a)
+      electricity_measurement.apparent_power_phase_b(apparent_power_phase_b)
+      electricity_measurement.apparent_power_phase_c(apparent_power_phase_c)
+      electricity_measurement.voltage_phase_a(voltage_phase_a)
+      electricity_measurement.voltage_phase_b(voltage_phase_b)
+      electricity_measurement.voltage_phase_c(voltage_phase_c)
+      electricity_measurement.current_phase_a(current_phase_a)
+      electricity_measurement.current_phase_b(current_phase_b)
+      electricity_measurement.current_phase_c(current_phase_c)
+      electricity_measurement.active_energy_phase_a(active_energy_phase_a)
+      electricity_measurement.active_energy_phase_b(active_energy_phase_b)
+      electricity_measurement.active_energy_phase_c(active_energy_phase_c)
+      electricity_measurement.line_to_line_voltage_phase_ab(line_to_line_voltage_phase_ab)
+      electricity_measurement.line_to_line_voltage_phase_bc(line_to_line_voltage_phase_bc)
+      electricity_measurement.line_to_line_voltage_phase_ac(line_to_line_voltage_phase_ac)
+      json = "{
+              id: #{}@id.to_s,
+              tsISO8601: #{}@timestamp,
+              aP_1: #{active_power_phase_a},
+              aP_2: #{active_power_phase_b},
+              aP_3: #{active_power_phase_c},
+              rP_1: #{reactive_power_phase_a},
+              rP_2: #{reactive_power_phase_b},
+              rP_3: #{reactive_power_phase_c},
+              apP_1: #{apparent_power_phase_a},
+              apP_2: #{apparent_power_phase_b},
+              apP_3: #{apparent_power_phase_c},
+              v_1: #{voltage_phase_a},
+              v_2: #{voltage_phase_b},
+              v_3: #{voltage_phase_c},
+              c_1: #{current_phase_a}@currentPhaseA,
+              c_2: #{current_phase_b}@currentPhaseB,
+              c_3: #{current_phase_c}@currentPhaseC,
+              pC_1: #{active_energy_phase_a},
+              pC_2: #{active_energy_phase_b},
+              pC_3: #{active_energy_phase_c},
+              v_12: #{line_to_line_voltage_phase_ab},
+              v_13: #{line_to_line_voltage_phase_ac},
+              v_23: #{line_to_line_voltage_phase_bc}
+              }"
+      expect(electricity_measurement.json).to be_equal json
+    end
   end
 
   let(:dummy_config) { Config.new(nil, nil, nil) }
