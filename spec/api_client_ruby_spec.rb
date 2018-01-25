@@ -14,21 +14,21 @@ RSpec.describe ApiClientRuby do
     let(:simple_measurement) { SimpleMeasurement.new }
 
     it "should set and return id attibute" do
-      id = "meter-01"
+      id = "water-meter-01"
       simple_measurement.id(id)
       expect(simple_measurement.id).to be_equal id
     end
 
-    it "should set and return id attibute" do
-      value = rand
-      simple_measurement.value(value)
-      expect(simple_measurement.id).to be_equal value
-    end
-
-    it "should set and return id attibute" do
+    it "should set and return timestamp attibute" do
       time = Time.now
       simple_measurement.timestamp(time)
-      expect(simple_measurement.id).to be_equal time
+      expect(simple_measurement.timestamp).to be_equal time
+    end
+
+    it "should set and return value attibute" do
+      value = rand
+      simple_measurement.value(value)
+      expect(simple_measurement.value).to be_equal value
     end
 
     it "should return correct JSON" do
@@ -44,7 +44,37 @@ RSpec.describe ApiClientRuby do
               }"
       expect(simple_measurement.json).to be_equal json
     end
+  end
 
+  context "with ElectricityMeasurement Attributes and JSON" do
+    let(:electricity_measurement) { ElectricityMeasurement.new }
+
+    it "should set and return id attibute" do
+      id = "meter-01"
+      electricity_measurement.id(id)
+      expect(electricity_measurement.id).to be_equal id
+    end
+
+    it "should set and return timestamp attibute" do
+      time = Time.now
+      electricity_measurement.timestamp(time)
+      expect(electricity_measurement.timestamp).to be_equal time
+    end
+
+    it "should return correct JSON" do
+      id = "meter-01"
+      value = rand
+      time = Time.now
+      simple_measurement.id(id)
+      simple_measurement.timestamp(time)
+      simple_measurement.value(value)
+
+      json = "{id: #{simple_measurement.id},
+              tsISO8601: #{simple_measurement.timestamp},
+              value: #{value}
+              }"
+      expect(simple_measurement.json).to be_equal json
+    end
   end
 
   let(:dummy_config) { Config.new(nil, nil, nil) }
