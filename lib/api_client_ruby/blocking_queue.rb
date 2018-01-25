@@ -29,7 +29,7 @@ class PriorityBlockingQueue < BlockingQueue
     @mutex.synchronize do
       @queue << x
       @queue.flatten!
-      @queue.sort_by { |y| y.getMeasurement.timestamp }
+      @queue.sort!
       @received.signal
     end
   end
