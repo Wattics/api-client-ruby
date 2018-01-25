@@ -4,44 +4,44 @@ require 'nokogiri'
 class Processor
   def initialize(agent)
     @agent = agent
-    @client = ClientFactory.getInstance.createClient
-    @measurementsWithConfig = PriorityBlockingQueue.new
+    @measurements_with_config = PriorityBlockingQueue.new
     @semaphore = Concurrent::Semaphore.new(0)
-    @isSending = false
+    @is_sending = false
     @mutex = Mutex.new
     @logger = Logger.new(STDOUT)
     @logger.level = Logger::WARN
   end
 
-  def process(measurementWithConfig)
-    @measurementsWithConfig << measurementWithConfig
-    if measurementWithConfig.is_a?(Array)
-      @semaphore.release(measurementWithConfig.size)
+  def process(measurement_with_config)
+    @measurements_with_config << measurement_with_config
+    if measurement_with_config.is_a?(Array)
+      @semaphore.release(measurement_with_config.size)
     else
       @semaphore.release
     end
   end
 
-  def isIdle?
+  def is_idle?
     @mutex.synchronize do
-      @measurementsWithConfig.isEmpty? && !@isSending
+      @measurements_with_config.is_empty? && !@is_sending
     end
   end
 
   def run
+    client = ClientFactory.get_instance.create_client
     loop do
       @semaphore.acquire
       @mutex.synchronize do
-        @measurementWithConfig = @measurementsWithConfig.pop
-        @isSending = true
+        @measurement_with_config = @measurements_with_config.pop
+        @is_sending = true
       end
-      @measurement = @measurementWithConfig.getMeasurement
-      @config = @measurementWithConfig.getConfig
+      @measurement = @measurement_with_config.getMeasurement
+      @config = @measurement_with_config.getConfig
       loop do
         begin
-          @response = @client.send(@measurement, @config)
+          @response = client.send(@measurement, @config)
           if !@agent.nil? && @response.code < 400
-            @agent.reportSentMeasurement(@measurement, @response)
+            @agent.report_sent_measurement(@measurement, @response)
           end
           if !@agent.nil? && @response.code >= 400
             @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
@@ -53,7 +53,7 @@ class Processor
         end
       end
       @mutex.synchronize do
-        @isSending = false
+        @is_sending = false
       end
     end
   rescue StandardError => e
