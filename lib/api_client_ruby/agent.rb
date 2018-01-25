@@ -1,5 +1,4 @@
 require 'concurrent'
-require 'pry-byebug'
 
 class Agent
   @@mutex = Mutex.new
