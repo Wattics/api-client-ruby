@@ -15,7 +15,6 @@ class Client
 end
 
 class ClientFactory
-  #@@instance = ClientFactory.new
 
   def self.setInstance(clientFactory)
     @@instance = clientFactory

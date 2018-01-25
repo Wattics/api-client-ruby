@@ -1,4 +1,5 @@
 require 'concurrent'
+require 'nokogiri'
 
 class Processor
   def initialize(agent)
@@ -8,6 +9,8 @@ class Processor
     @semaphore = Concurrent::Semaphore.new(0)
     @isSending = false;
     @mutex = Mutex.new
+    @logger = Logger.new(STDOUT)
+    @logger.level = Logger::WARN
   end
 
   def process(measurementWithConfig)
@@ -38,16 +41,15 @@ class Processor
         loop do
           begin
             @response = @client.send(@measurement, @config)
-            if @agent != nil
+            if (@agent != nil && @response.code < 400)
               @agent.reportSentMeasurement(@measurement, @response)
             end
-            if (@response != nil && @response.code >= 400)
-              raise response.response
+            if (@agent != nil && @response.code >= 400)
+              @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath("//h1").text}")
             end
-            # [@response.code, @measurement]
             break
            rescue Exception => e
-            @agent.reportSentMeasurement(@measurement, e)
+            @logger.error("Could not send #{@measurement}, Server Response: #{e}")
             sleep 60
           end
         end

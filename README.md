@@ -25,8 +25,8 @@ agent.addMeasurementSentHandler do
     puts measurement
     puts response.code
   }
-
 end
+
 # config = Config.new(:PRODUCTION, "username", "password");
 config = Config.new(:DEVELOPMENT,'username', 'password')
 
