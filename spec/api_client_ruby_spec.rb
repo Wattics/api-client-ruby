@@ -11,6 +11,30 @@ RSpec.describe ApiClientRuby do
   end
 
   let(:dummy_config) { Config.new(nil, nil, nil) }
+
+  context 'PriorityBlockingQueue' do
+    it 'should sort' do
+      class SortableItem
+        attr_accessor :index
+
+        def initialize(index:)
+          @index = index
+        end
+
+        def <=>(item)
+          @index <=> item.index
+        end
+      end
+
+      queue = PriorityBlockingQueue.new
+      queue << SortableItem.new(index: 2)
+      queue << SortableItem.new(index: 1)
+
+      expect(queue.pop.index).to be(1)
+      expect(queue.pop.index).to be(2)
+    end
+  end
+
   context 'Measurements' do
     it 'should send all' do
       count_down_latch = Concurrent::CountDownLatch.new(24)
