@@ -47,7 +47,7 @@ class Processor
             @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
           end
           break
-        rescue Exception => e
+        rescue StandardError => e
           @logger.error("Could not send #{@measurement}, Server Response: #{e}")
           sleep 60
         end
@@ -56,6 +56,7 @@ class Processor
         @isSending = false
       end
     end
-  rescue Exception => e
+  rescue StandardError => e
+    @logger.error("Thread stopped unexpectedly: #{e.message}")
   end
 end
