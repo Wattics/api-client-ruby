@@ -40,7 +40,7 @@ RSpec.describe ApiClientRuby do
         def send(measurement, config)
           $sentMeasurements << measurement
           $countDownLatch.count_down
-          nil
+          MockResponse.new
         end
       end
       agent = Agent.getInstance
@@ -73,7 +73,7 @@ RSpec.describe ApiClientRuby do
             end
           end
           $countDownLatch.count_down
-          nil
+          MockResponse.new
         end
       end
       agent = Agent.getInstance(2)

@@ -314,6 +314,12 @@ end
 
 class MockClient < Client
   def send(measurement, config)
-    nil
+    MockResponse.new
+  end
+end
+
+class MockResponse
+  def code
+    200
   end
 end
