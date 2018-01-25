@@ -22,6 +22,6 @@ class MeasurementWithConfig
   end
 
   def <=>(measurementWithConfig)
-    @measurement <=> (measurementWithConfig.measurement)
+    @measurement <=> measurementWithConfig.measurement
   end
 end

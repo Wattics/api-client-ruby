@@ -31,11 +31,9 @@ class Agent
   end
 
   def waitUntilLast
-    Thread.new {
-      while @waitSemaphore.available_permits != 0
-        sleep 0.01
-      end
-    }.join
+    Thread.new do
+      sleep 0.01 while @waitSemaphore.available_permits != 0
+    end.join
   end
 
   def startProcessorFeeder
@@ -57,7 +55,7 @@ class Agent
         end
       rescue ThreadError
       end
-    end )
+    end)
   end
 
   def startMeasurementSentHandlerDispatcher
@@ -65,11 +63,10 @@ class Agent
       begin
         loop do
           array = @sentMeasurementsWithContext.pop
-          unless array.nil?
-            measurement = array[0]
-            response = array[1]
-            @measurementSentHandlerList.each{ |handler| handler.call(measurement, response) }
-          end
+          next if array.nil?
+          measurement = array[0]
+          response = array[1]
+          @measurementSentHandlerList.each { |handler| handler.call(measurement, response) }
         end
       rescue ThreadError
       end
@@ -87,20 +84,20 @@ class Agent
       measurementGroups.each do |channelId, measurementsForChannelId|
         measurementsWithConfig = measurementsForChannelId.map { |measurement| MeasurementWithConfig.new(measurement, config) }
         @processorAlreadyBoundToChannelId = @processorPool.getProcessor(channelId)
-        unless @processorAlreadyBoundToChannelId.nil?
-          @processorAlreadyBoundToChannelId.process(measurementsWithConfig)
-        else
+        if @processorAlreadyBoundToChannelId.nil?
           @enqueuedMeasurementsWithConfig[channelId] += measurementsWithConfig
+        else
+          @processorAlreadyBoundToChannelId.process(measurementsWithConfig)
         end
       end
     else
       @waitSemaphore.release
       measurementWithConfig = MeasurementWithConfig.new(measurement, config)
       @processorAlreadyBoundToChannelId = @processorPool.getProcessor(measurement.getId)
-      unless @processorAlreadyBoundToChannelId.nil?
-        @processorAlreadyBoundToChannelId.process(measurementWithConfig)
-      else
+      if @processorAlreadyBoundToChannelId.nil?
         @enqueuedMeasurementsWithConfig[measurement.getId] << measurementWithConfig
+      else
+        @processorAlreadyBoundToChannelId.process(measurementWithConfig)
       end
     end
   end
@@ -110,9 +107,7 @@ class Agent
     @waitSemaphore.acquire
   end
 
-  def addMeasurementSentHandler(&block)
+  def addMeasurementSentHandler
     @measurementSentHandlerList << yield
   end
-
 end
-

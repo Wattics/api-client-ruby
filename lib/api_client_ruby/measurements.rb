@@ -7,6 +7,7 @@ class Measurement
     @id
     @timestamp
   end
+
   def getId
     @id
   end
@@ -15,13 +16,12 @@ class Measurement
     @id = id
   end
 
-
   def getTimestamp
     @timestamp
   end
 
   def setTimestamp(time)
-    @timestamp = time.strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
+    @timestamp = time.strftime('%Y-%m-%dT%H:%M:%S.%L%:z')
   end
 
   def <=>(measurement)
@@ -43,23 +43,21 @@ class SimpleMeasurement < Measurement
   end
 
   def to_s
-    "SimpleMeasurement{" +
-                  "id='" + @id.to_s + '\'' +
-                  ", timestamp=" + @timestamp.to_s +
-                  ", value=" + @value.to_s +
-                  '}'
+    'SimpleMeasurement{' \
+      "id='" + @id.to_s + '\'' \
+      ', timestamp=' + @timestamp.to_s +
+      ', value=' + @value.to_s +
+      '}'
   end
 
   def json
     {
-                id: @id.to_s,
-                tsISO8601: @timestamp,
-                value: @value
-    }.select {|k, v| v }.to_json
+      id: @id.to_s,
+      tsISO8601: @timestamp,
+      value: @value
+    }.select { |_k, v| v }.to_json
   end
-
 end
-
 
 class ElectricityMeasurement < Measurement
   def initialize
@@ -130,30 +128,23 @@ class ElectricityMeasurement < Measurement
     @reactivePowerPhaseC
   end
 
-
   def setReactivePowerPhaseC(reactivePowerPhaseC)
     @reactivePowerPhaseC = reactivePowerPhaseC
   end
 
-  def getApparentPowerPhaseA
-    @getApparentPowerPhaseA
-  end
+  attr_reader :getApparentPowerPhaseA
 
   def setApparentPowerPhaseA(apparentPowerPhaseA)
     @apparentPowerPhaseA = apparentPowerPhaseA
   end
 
-  def getApparentPowerPhaseB
-    @getApparentPowerPhaseB
-  end
+  attr_reader :getApparentPowerPhaseB
 
   def setApparentPowerPhaseB(apparentPowerPhaseB)
     @apparentPowerPhaseB = apparentPowerPhaseB
   end
 
-  def getApparentPowerPhaseC
-    @getApparentPowerPhaseC
-  end
+  attr_reader :getApparentPowerPhaseC
 
   def setApparentPowerPhaseC(apparentPowerPhaseC)
     @apparentPowerPhaseC = apparentPowerPhaseC
@@ -256,31 +247,31 @@ class ElectricityMeasurement < Measurement
   end
 
   def to_s
-      "ElectricityMeasurement{" +
-                  "id='" + @id.to_s + '\'' +
-                  ", timestamp=" + @timestamp.to_s +
-                  ", activePowerPhaseA=" + @activePowerPhaseA.to_s +
-                  ", activePowerPhaseB=" + @activePowerPhaseB.to_s +
-                  ", activePowerPhaseC=" + @activePowerPhaseC.to_s +
-                  ", reactivePowerPhaseA=" + @reactivePowerPhaseA.to_s +
-                  ", reactivePowerPhaseB=" + @reactivePowerPhaseB.to_s +
-                  ", reactivePowerPhaseC=" + @reactivePowerPhaseC.to_s +
-                  ", apparentPowerPhaseA=" + @apparentPowerPhaseA.to_s +
-                  ", apparentPowerPhaseB=" + @apparentPowerPhaseB.to_s +
-                  ", apparentPowerPhaseC=" + @apparentPowerPhaseC.to_s +
-                  ", voltagePhaseA=" + @voltagePhaseA.to_s +
-                  ", voltagePhaseB=" + @voltagePhaseB.to_s +
-                  ", voltagePhaseC=" + @voltagePhaseC.to_s +
-                  ", currentPhaseA=" + @currentPhaseA.to_s +
-                  ", currentPhaseB=" + @currentPhaseB.to_s +
-                  ", currentPhaseC=" + @currentPhaseC.to_s +
-                  ", activeEnergyPhaseA=" + @activeEnergyPhaseA.to_s +
-                  ", activeEnergyPhaseB=" + @activeEnergyPhaseB.to_s +
-                  ", activeEnergyPhaseC=" + @activeEnergyPhaseC.to_s +
-                  ", lineToLineVoltagePhaseAB=" + @lineToLineVoltagePhaseAB.to_s +
-                  ", lineToLineVoltagePhaseBC=" + @lineToLineVoltagePhaseBC.to_s +
-                  ", lineToLineVoltagePhaseAC=" + @lineToLineVoltagePhaseAC.to_s +
-                  '}';
+    'ElectricityMeasurement{' \
+      "id='" + @id.to_s + '\'' \
+      ', timestamp=' + @timestamp.to_s +
+      ', activePowerPhaseA=' + @activePowerPhaseA.to_s +
+      ', activePowerPhaseB=' + @activePowerPhaseB.to_s +
+      ', activePowerPhaseC=' + @activePowerPhaseC.to_s +
+      ', reactivePowerPhaseA=' + @reactivePowerPhaseA.to_s +
+      ', reactivePowerPhaseB=' + @reactivePowerPhaseB.to_s +
+      ', reactivePowerPhaseC=' + @reactivePowerPhaseC.to_s +
+      ', apparentPowerPhaseA=' + @apparentPowerPhaseA.to_s +
+      ', apparentPowerPhaseB=' + @apparentPowerPhaseB.to_s +
+      ', apparentPowerPhaseC=' + @apparentPowerPhaseC.to_s +
+      ', voltagePhaseA=' + @voltagePhaseA.to_s +
+      ', voltagePhaseB=' + @voltagePhaseB.to_s +
+      ', voltagePhaseC=' + @voltagePhaseC.to_s +
+      ', currentPhaseA=' + @currentPhaseA.to_s +
+      ', currentPhaseB=' + @currentPhaseB.to_s +
+      ', currentPhaseC=' + @currentPhaseC.to_s +
+      ', activeEnergyPhaseA=' + @activeEnergyPhaseA.to_s +
+      ', activeEnergyPhaseB=' + @activeEnergyPhaseB.to_s +
+      ', activeEnergyPhaseC=' + @activeEnergyPhaseC.to_s +
+      ', lineToLineVoltagePhaseAB=' + @lineToLineVoltagePhaseAB.to_s +
+      ', lineToLineVoltagePhaseBC=' + @lineToLineVoltagePhaseBC.to_s +
+      ', lineToLineVoltagePhaseAC=' + @lineToLineVoltagePhaseAC.to_s +
+      '}'
   end
 
   def json
@@ -308,6 +299,6 @@ class ElectricityMeasurement < Measurement
       v_12: @lineToLineVoltagePhaseAB,
       v_13: @lineToLineVoltagePhaseAC,
       v_23: @lineToLineVoltagePhaseBC
-      }.select {|k, v| v }.to_json
+    }.select { |_k, v| v }.to_json
   end
 end

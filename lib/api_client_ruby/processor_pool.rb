@@ -1,5 +1,5 @@
 class ProcessorPool
-  #attr_reader :processors
+  # attr_reader :processors
   def initialize(agent, agentThreadGroup, maximumParallelSenders = 0)
     maximumParallelSenders > 0 ? @max_processors = maximumParallelSenders.freeze : @max_processors = (2 * Concurrent.processor_count).freeze
     @agent = agent
@@ -25,12 +25,12 @@ class ProcessorPool
 
   def spawnNewProcessor
     processor = Processor.new(@agent)
-    @processorThreadGroup.add( Thread.new { processor.run } )
+    @processorThreadGroup.add(Thread.new { processor.run })
     processor
   end
 
   def rebindProcessorToChannelId(newChannelId)
-    idleProcessorEntry = @processors.select { |key, value| value.isIdle? }.first
+    idleProcessorEntry = @processors.select { |_key, value| value.isIdle? }.first
     return nil if idleProcessorEntry.nil?
     oldChannelId = idleProcessorEntry[0]
     idleProcessor = idleProcessorEntry[1]
