@@ -31,11 +31,11 @@ class Agent
   end
 
   def waitUntilLast
-    @thread = Thread.new {
+    Thread.new {
       while @waitSemaphore.available_permits != 0
         sleep 0.01
       end
-    }
+    }.join
   end
 
   def startProcessorFeeder
@@ -103,9 +103,6 @@ class Agent
         @enqueuedMeasurementsWithConfig[measurement.getId] << measurementWithConfig
       end
     end
-
-      waitUntilLast
-      @thread.join
   end
 
   def reportSentMeasurement(measurement, response)
