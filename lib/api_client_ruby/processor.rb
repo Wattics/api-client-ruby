@@ -35,8 +35,8 @@ class Processor
         @measurement_with_config = @measurements_with_config.pop
         @is_sending = true
       end
-      @measurement = @measurement_with_config.getMeasurement
-      @config = @measurement_with_config.getConfig
+      @measurement = @measurement_with_config.measurement
+      @config = @measurement_with_config.config
       loop do
         begin
           @response = client.send(@measurement, @config)

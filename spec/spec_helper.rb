@@ -15,299 +15,175 @@ RSpec.configure do |config|
 end
 
 class SimpleMeasurementFactory
-  @@instance = new
-
-  def initialize
-    @id
-    @timestamp
-    @value
-  end
-
+  attr_accessor :id, :timestamp, :value
   private_class_method :new
 
-  def self.getInstance
-    @@instance
+  def self.get_instance
+    @instance ||= new
   end
 
   def build
-    simpleMeasurement = SimpleMeasurement.new
-    simpleMeasurement.setId(getId)
-    simpleMeasurement.setTimestamp(getTimestamp)
-    simpleMeasurement.setValue(getValue)
-    simpleMeasurement
+    simple_measurement = SimpleMeasurement.new
+    simple_measurement.id = id
+    simple_measurement.timestamp = timestamp
+    simple_measurement.value = value
+    simple_measurement
   end
 
-  def getId
+  def id
     @id ||= SecureRandom.uuid
   end
 
-  def setId(id)
-    @id = id
-  end
-
-  def getTimestamp
+  def timestamp
     @timestamp ||= Time.now
   end
 
-  def setTimestamp(timestamp)
-    @timestamp = timestamp
-  end
-
-  def getValue
+  def value
     @value ||= rand
   end
 
-  def setValue(value)
-    @value = value
-  end
 end
 
 class ElectricityMeasurementFactory
-  @@instance = new
-
-  def initialize
-    @id
-    @timestamp
-    @activePowerPhaseA
-    @activePowerPhaseB
-    @activePowerPhaseC
-    @reactivePowerPhaseA
-    @reactivePowerPhaseB
-    @reactivePowerPhaseC
-    @apparentPowerPhaseA
-    @apparentPowerPhaseB
-    @apparentPowerPhaseC
-    @voltagePhaseA
-    @voltagePhaseB
-    @voltagePhaseC
-    @currentPhaseA
-    @currentPhaseB
-    @currentPhaseC
-    @activeEnergyPhaseA
-    @activeEnergyPhaseB
-    @activeEnergyPhaseC
-    @lineToLineVoltagePhaseAB
-    @lineToLineVoltagePhaseBC
-    @lineToLineVoltagePhaseAC
-  end
+  attr_accessor :id, :active_power_phase_a, :active_power_phase_b, :active_power_phase_c,
+                :reactive_power_phase_a, :reactive_power_phase_b, :reactive_power_phase_c,
+                :apparent_power_phase_a, :apparent_power_phase_b, :apparent_power_phase_c,
+                :voltage_phase_a, :voltage_phase_b, :voltage_phase_c,
+                :current_phase_a, :current_phase_b, :current_phase_c,
+                :active_energy_phase_a, :active_energy_phase_b, :active_energy_phase_c,
+                :line_to_line_voltage_phase_ab, :line_to_line_voltage_phase_bc, :line_to_line_voltage_phase_ac
 
   private_class_method :new
 
-  def self.getInstance
-    @@instance
+  def self.get_instance
+    @instance ||= new
   end
 
   def build
-    electricityMeasurement = ElectricityMeasurement.new
-    electricityMeasurement.setId(getId)
-    electricityMeasurement.setTimestamp(getTimestamp)
-    electricityMeasurement.setActivePowerPhaseA(getActivePowerPhaseA)
-    electricityMeasurement.setActivePowerPhaseB(getActivePowerPhaseB)
-    electricityMeasurement.setActivePowerPhaseC(getActivePowerPhaseC)
-    electricityMeasurement.setReactivePowerPhaseA(getReactivePowerPhaseA)
-    electricityMeasurement.setReactivePowerPhaseB(getReactivePowerPhaseB)
-    electricityMeasurement.setReactivePowerPhaseC(getReactivePowerPhaseC)
-    electricityMeasurement.setApparentPowerPhaseA(getApparentPowerPhaseA)
-    electricityMeasurement.setApparentPowerPhaseB(getApparentPowerPhaseB)
-    electricityMeasurement.setApparentPowerPhaseC(getApparentPowerPhaseC)
-    electricityMeasurement.setVoltagePhaseA(getVoltagePhaseA)
-    electricityMeasurement.setVoltagePhaseB(getVoltagePhaseB)
-    electricityMeasurement.setVoltagePhaseC(getVoltagePhaseC)
-    electricityMeasurement.setCurrentPhaseA(getCurrentPhaseA)
-    electricityMeasurement.setCurrentPhaseB(getCurrentPhaseB)
-    electricityMeasurement.setCurrentPhaseC(getCurrentPhaseC)
-    electricityMeasurement.setActiveEnergyPhaseA(getActiveEnergyPhaseA)
-    electricityMeasurement.setActiveEnergyPhaseB(getActiveEnergyPhaseB)
-    electricityMeasurement.setActiveEnergyPhaseC(getActiveEnergyPhaseC)
-    electricityMeasurement.setLineToLineVoltagePhaseAB(getLineToLineVoltagePhaseAB)
-    electricityMeasurement.setLineToLineVoltagePhaseAC(getLineToLineVoltagePhaseAC)
-    electricityMeasurement.setLineToLineVoltagePhaseBC(getLineToLineVoltagePhaseBC)
-    electricityMeasurement
+    electricity_measurement = ElectricityMeasurement.new
+
+    electricity_measurement.id = id
+    electricity_measurement.timestamp = timestamp
+    electricity_measurement.active_power_phase_a = active_power_phase_a
+    electricity_measurement.active_power_phase_b = active_power_phase_b
+    electricity_measurement.active_power_phase_c = active_power_phase_c
+    electricity_measurement.reactive_power_phase_a = reactive_power_phase_a
+    electricity_measurement.reactive_power_phase_b = reactive_power_phase_b
+    electricity_measurement.reactive_power_phase_c = reactive_power_phase_c
+    electricity_measurement.apparent_power_phase_a = apparent_power_phase_a
+    electricity_measurement.apparent_power_phase_b = apparent_power_phase_b
+    electricity_measurement.apparent_power_phase_c = apparent_power_phase_c
+    electricity_measurement.voltage_phase_a = voltage_phase_a
+    electricity_measurement.voltage_phase_b = voltage_phase_b
+    electricity_measurement.voltage_phase_c = voltage_phase_c
+    electricity_measurement.current_phase_a = current_phase_a
+    electricity_measurement.current_phase_b = current_phase_b
+    electricity_measurement.current_phase_c = current_phase_c
+    electricity_measurement.active_energy_phase_a = active_energy_phase_a
+    electricity_measurement.active_energy_phase_b = active_energy_phase_b
+    electricity_measurement.active_energy_phase_c = active_energy_phase_c
+    electricity_measurement.line_to_line_voltage_phase_ab = line_to_line_voltage_phase_ab
+    electricity_measurement.line_to_line_voltage_phase_ac = line_to_line_voltage_phase_ac
+    electricity_measurement.line_to_line_voltage_phase_bc = line_to_line_voltage_phase_bc
+    electricity_measurement
   end
 
-  def getId
+  def id
     @id ||= SecureRandom.uuid
   end
 
-  def setId(id)
-    @id = id
-  end
-
-  def getTimestamp
+  def timestamp
     @timestamp ||= Time.now
   end
 
-  def setTimestamp(timestamp)
-    @timestamp = timestamp
+  def active_power_phase_a
+    @active_power_phase_a ||= rand
   end
 
-  def getActivePowerPhaseA
-    @activePowerPhaseA ||= rand
+  def active_power_phase_b
+    @active_power_phase_b ||= rand
   end
 
-  def setActivePowerPhaseA(activePowerPhaseA)
-    @activePowerPhaseA = activePowerPhaseA
+  def active_power_phase_c
+    @active_power_phase_c ||= rand
   end
 
-  def getActivePowerPhaseB
-    @activePowerPhaseB ||= rand
+  def reactive_power_phase_a
+    @reactive_power_phase_a ||= rand
   end
 
-  def setActivePowerPhaseB(activePowerPhaseB)
-    @activePowerPhaseB = activePowerPhaseB
+  def reactive_power_phase_b
+    @reactive_power_phase_b ||= rand
   end
 
-  def getActivePowerPhaseC
-    @activePowerPhaseC ||= rand
+  def reactive_power_phase_c
+    @reactive_power_phase_c ||= rand
   end
 
-  def setActivePowerPhaseC(_activePowerPhaseC)
-    @activePowerPhaseC = ActivePowerPhaseC
+  def apparent_power_phase_a
+    @apparent_power_phase_a ||= rand
   end
 
-  def getReactivePowerPhaseA
-    @reactivePowerPhaseA ||= rand
+
+  def apparent_power_phase_b
+    @apparent_power_phase_b ||= rand
   end
 
-  def setReactivePowerPhaseA(reactivePowerPhaseA)
-    @reactivePowerPhaseA = reactivePowerPhaseA
+
+  def apparent_power_phase_c
+    @apparent_power_phase_c ||= rand
   end
 
-  def getReactivePowerPhaseB
-    @reactivePowerPhaseB ||= rand
+
+  def voltage_phase_a
+    @voltage_phase_a ||= rand
   end
 
-  def setReactivePowerPhaseB(reactivePowerPhaseB)
-    @reactivePowerPhaseB = reactivePowerPhaseB
+
+  def voltage_phase_b
+    @voltage_phase_b ||= rand
   end
 
-  def getReactivePowerPhaseC
-    @reactivePowerPhaseC ||= rand
+  def voltage_phase_c
+    @voltage_phase_c ||= rand
   end
 
-  def setReactivePowerPhaseC(reactivePowerPhaseC)
-    @reactivePowerPhaseC = reactivePowerPhaseC
+  def current_phase_a
+    @current_phase_a ||= rand
   end
 
-  def getApparentPowerPhaseA
-    @apparentPowerPhaseA ||= rand
+  def current_phase_b
+    @current_phase_b ||= rand
   end
 
-  def setApparentPowerPhaseA(apparentPowerPhaseA)
-    @apparentPowerPhaseA = apparentPowerPhaseA
+  def current_phase_c
+    @current_phase_c ||= rand
   end
 
-  def getApparentPowerPhaseB
-    @apparentPowerPhaseB ||= rand
+  def active_energy_phase_a
+    @active_energy_phase_a ||= rand
   end
 
-  def setApparentPowerPhaseB(apparentPowerPhaseB)
-    @apparentPowerPhaseB = apparentPowerPhaseB
+  def active_energy_phase_b
+    @active_energy_phase_c ||= rand
   end
 
-  def getApparentPowerPhaseC
-    @apparentPowerPhaseC ||= rand
-  end
-
-  def setApparentPowerPhaseC(apparentPowerPhaseC)
-    @apparentPowerPhaseC = apparentPowerPhaseC
-  end
-
-  def getVoltagePhaseA
-    @voltagePhaseA ||= rand
-  end
-
-  def setVoltagePhaseA(voltagePhaseA)
-    @voltagePhaseA = voltagePhaseA
-  end
-
-  def getVoltagePhaseB
-    @voltagePhaseB ||= rand
-  end
-
-  def setVoltagePhaseB(voltagePhaseB)
-    @voltagePhaseB = voltagePhaseB
-  end
-
-  def getVoltagePhaseC
-    @voltagePhaseC ||= rand
-  end
-
-  def setVoltagePhaseC(voltagePhaseC)
-    @voltagePhaseC = voltagePhaseC
-  end
-
-  def getCurrentPhaseA
-    @currentPhaseA ||= rand
-  end
-
-  def setCurrentPhaseA(currentPhaseA)
-    @currentPhaseA = currentPhaseA
-  end
-
-  def getCurrentPhaseB
-    @currentPhaseB ||= rand
-  end
-
-  def setCurrentPhaseB(currentPhaseB)
-    @currentPhaseB = currentPhaseB
-  end
-
-  def getCurrentPhaseC
-    @currentPhaseC ||= rand
-  end
-
-  def setCurrentPhaseC(currentPhaseC)
-    @currentPhaseC = currentPhaseC
-  end
-
-  def getActiveEnergyPhaseA
-    @activeEnergyPhaseA ||= rand
-  end
-
-  def setActiveEnergyPhaseA(activeEnergyPhaseA)
-    @activeEnergyPhaseA = activeEnergyPhaseA
-  end
-
-  def getActiveEnergyPhaseB
-    @activeEnergyPhaseB ||= rand
-  end
-
-  def setActiveEnergyPhaseB(activeEnergyPhaseB)
-    @activeEnergyPhaseB = activeEnergyPhaseB
-  end
-
-  def getActiveEnergyPhaseC
+  def active_energy_phase_c
     @activeEnergyPhaseC ||= rand
   end
 
-  def setActiveEnergyPhaseC(activeEnergyPhaseC)
-    @activeEnergyPhaseC = activeEnergyPhaseC
+  def line_to_line_voltage_phase_ab
+    @line_to_line_voltage_phase_ab ||= rand
   end
 
-  def getLineToLineVoltagePhaseAB
-    @lineToLineVoltagePhaseAB ||= rand
+  def line_to_line_voltage_phase_ac
+    @line_to_line_voltage_phase_ac ||= rand
   end
 
-  def setLineToLineVoltagePhaseAB(lineToLineVoltagePhaseAB)
-    @lineToLineVoltagePhaseAB = lineToLineVoltagePhaseAB
+  def line_to_line_voltage_phase_bc
+    @line_to_line_voltage_phase_bc ||= rand
   end
 
-  def getLineToLineVoltagePhaseAC
-    @lineToLineVoltagePhaseAC ||= rand
-  end
-
-  def setLineToLineVoltagePhaseAC(lineToLineVoltagePhaseAC)
-    @lineToLineVoltagePhaseAC = lineToLineVoltagePhaseAC
-  end
-
-  def getLineToLineVoltagePhaseBC
-    @lineToLineVoltagePhaseBC ||= rand
-  end
-
-  def setLineToLineVoltagePhaseBC(_lineToLineVoltagePhaseBC)
-    @lineToLineVoltagePhaseBC = getLineToLineVoltagePhaseBC
-  end
 end
 
 class MockClient < Client

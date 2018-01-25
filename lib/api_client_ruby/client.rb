@@ -2,8 +2,8 @@ require 'rest-client'
 
 class Client
   def send(measurement, config)
-    response = RestClient::Request.execute(method: :post, url: config.getUri,
-                                           user: config.getUsername, password: config.getPassword,
+    response = RestClient::Request.execute(method: :post, url: config.uri,
+                                           user: config.username, password: config.password,
                                            payload: measurement.json, timeout: 2)
     return response
   rescue RestClient::ExceptionWithResponse => e
@@ -13,11 +13,11 @@ end
 
 class ClientFactory
   def self.setInstance(client_factory)
-    @@instance = client_factory
+    @instance = client_factory
   end
 
   def self.get_instance
-    @@instance ||= new
+    @instance ||= new
   end
 
   def create_client

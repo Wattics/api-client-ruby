@@ -14,7 +14,7 @@ $ gem install api_client_ruby
 
 ## Usage
 
-Here is some basic commands to get you started with the API. Remember to use a valid username and password.
+Here is some basic commands to get you started with the API. Remember to use a valid username and password. You may send a single measurment or array of measurments. Important: 'wait_until_last' must be include to wait for all measurments to be sent, missing this command may carry the lost of data.
 
 ```ruby
 require 'api_client_ruby'
@@ -22,8 +22,7 @@ agent = Agent.getInstance
 
 agent.addMeasurementSentHandler do
   -> (measurement, response) {
-    puts measurement
-    puts response.code
+    puts "#{response.code} - #{measurement}"
   }
 end
 
@@ -31,19 +30,21 @@ end
 config = Config.new(:DEVELOPMENT,'username', 'password')
 
 simple_measurement = SimpleMeasurement.new
-simple_measurement.setId('meter-id-01')
-simple_measurement.setValue(12.3)
-simple_measurement.setTimestamp(Time.now)
+simple_measurement.id = 'gas-meter-id-01'
+simple_measurement.value = 12.3
+simple_measurement.timestamp = Time.now
 agent.send(simple_measurement, config)
 
 
 electricity_measurement = ElectricityMeasurement.new
-electricity_measurement.setId("meter-id-02");
-electricity_measurement.setTimestamp(now());
-electricity_measurement.setActivePowerPhaseA(5.12);
-electricity_measurement.setActiveEnergyPhaseA(1.5);
+electricity_measurement.id = "elec-meter-id-02"
+electricity_measurement.timestamp = Time.now
+electricity_measurement.active_energy_phase_a = 5.12
+electricity_measurement.active_energy_phase_b = 1.5
 # ...
 agent.send(electricity_measurement, config);
 
-agent.waitUntilLast
+agent.wait_until_last
 ```
+
+

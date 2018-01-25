@@ -1,23 +1,7 @@
 class MeasurementWithConfig
-  attr_reader :measurement
+  attr_accessor :measurement, :config
   def initialize(measurement, config)
     @measurement = measurement
-    @config = config
-  end
-
-  def getMeasurement
-    @measurement
-  end
-
-  def setMeasurement
-    @measurement = measurement
-  end
-
-  def getConfig
-    @config
-  end
-
-  def setConfig
     @config = config
   end
 

@@ -80,7 +80,7 @@ class Agent
   def send(measurement, config)
     if measurement.is_a?(Array)
       @wait_semaphore.release(measurement.size)
-      measurement_groups = measurement.group_by(&:getId)
+      measurement_groups = measurement.group_by(&:id)
       measurement_groups.each do |channel_id, measurements_for_channel_id|
         measurements_with_config = measurements_for_channel_id.map { |measurement| MeasurementWithConfig.new(measurement, config) }
         @processor_already_bound_to_channel_id = @processor_pool.get_processor(channel_id)
@@ -93,9 +93,9 @@ class Agent
     else
       @wait_semaphore.release
       measurement_with_config = MeasurementWithConfig.new(measurement, config)
-      @processor_already_bound_to_channel_id = @processor_pool.get_processor(measurement.getId)
+      @processor_already_bound_to_channel_id = @processor_pool.get_processor(measurement.id)
       if @processor_already_bound_to_channel_id.nil?
-        @enqueued_measurements_with_config[measurement.getId] << measurement_with_config
+        @enqueued_measurements_with_config[measurement.id] << measurement_with_config
       else
         @processor_already_bound_to_channel_id.process(measurement_with_config)
       end

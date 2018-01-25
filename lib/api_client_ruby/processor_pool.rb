@@ -1,5 +1,4 @@
 class ProcessorPool
-  # attr_reader :processors
   def initialize(agent, agent_thread_group, maximum_parallel_senders = 0)
     maximum_parallel_senders > 0 ? @max_processors = maximum_parallel_senders.freeze : @max_processors = (2 * Concurrent.processor_count).freeze
     @agent = agent
