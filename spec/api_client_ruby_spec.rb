@@ -179,7 +179,7 @@ RSpec.describe ApiClientRuby do
         measurement_list << simple_measurement_factory.build
         hours += 1
       end
-      agent.send(measurement_list, dummy_config)
+      agent.send(measurement_list.reverse, dummy_config)
       $count_down_latch.wait
       measurement_list.sort_by(&:getTimestamp)
       expect(measurement_list).to match_array($sent_measurements)
