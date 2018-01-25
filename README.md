@@ -14,7 +14,7 @@ $ gem install api_client_ruby
 
 ## Usage
 
-Here is some basic commands to get you started with the API. Remember to use a valid username and password. You may send a single measurment or array of measurments. Important: 'wait_until_last' must be include to wait for all measurments to be sent, missing this command may carry the lost of data.
+Here is some basic commands to get you started with the API. Remember to use a valid username and password. You may send a single measurment or array of measurments. Important: 'wait_until_last' must be include at the end of all the sends to await for all measurments to be sent, missing this command may carry the lost of data.
 
 ```ruby
 require 'api_client_ruby'
