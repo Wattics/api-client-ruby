@@ -36,11 +36,14 @@ simple_measurement.setValue(12.3)
 simple_measurement.setTimestamp(Time.now)
 agent.send(simple_measurement, config)
 
+
 electricity_measurement = ElectricityMeasurement.new
 electricity_measurement.setId("meter-id-02");
 electricity_measurement.setTimestamp(now());
 electricity_measurement.setActivePowerPhaseA(5.12);
 electricity_measurement.setActiveEnergyPhaseA(1.5);
 # ...
-gent.send(electricity_measurement, config);
+agent.send(electricity_measurement, config);
+
+agent.waitUntilLast
 ```
