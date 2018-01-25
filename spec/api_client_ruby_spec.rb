@@ -14,7 +14,7 @@ RSpec.describe ApiClientRuby do
     let(:simple_measurement) { SimpleMeasurement.new }
 
     it "should set and return id attibute" do
-      id = "water-meter-01"
+      id = "water-01"
       simple_measurement.id(id)
       expect(simple_measurement.id).to be_equal id
     end
@@ -32,7 +32,7 @@ RSpec.describe ApiClientRuby do
     end
 
     it "should return correct JSON" do
-      id = "meter-01"
+      id = "water-01"
       value = rand
       time = Time.now
       simple_measurement.id(id)
@@ -50,7 +50,7 @@ RSpec.describe ApiClientRuby do
     let(:electricity_measurement) { ElectricityMeasurement.new }
 
     it "should set and return id attibute" do
-      id = "meter-01"
+      id = "elec-meter-01"
       electricity_measurement.id(id)
       expect(electricity_measurement.id).to be_equal id
     end
@@ -61,20 +61,56 @@ RSpec.describe ApiClientRuby do
       expect(electricity_measurement.timestamp).to be_equal time
     end
 
-    it "should return correct JSON" do
-      id = "meter-01"
-      value = rand
-      time = Time.now
-      simple_measurement.id(id)
-      simple_measurement.timestamp(time)
-      simple_measurement.value(value)
-
-      json = "{id: #{simple_measurement.id},
-              tsISO8601: #{simple_measurement.timestamp},
-              value: #{value}
-              }"
-      expect(simple_measurement.json).to be_equal json
+    it "should set and return active_power_phase_a attibute" do
+      active_power_phase_a = rand
+      electricity_measurement.active_power_phase_a(active_power_phase_a)
+      expect(electricity_measurement.active_power_phase_a).to be_equal active_power_phase_a
     end
+
+    it "should set and return active_power_phase_b attibute" do
+      active_power_phase_b = rand
+      electricity_measurement.active_power_phase_b(active_power_phase_b)
+      expect(electricity_measurement.active_power_phase_b).to be_equal active_power_phase_b
+    end
+
+    it "should set and return active_power_phase_c attibute" do
+      active_power_phase_c = rand
+      electricity_measurement.active_power_phase_c(active_power_phase_c)
+      expect(electricity_measurement.active_power_phase_c).to be_equal active_power_phase_c
+    end
+    # @reactivePowerPhaseA
+    # @reactivePowerPhaseB
+    # @reactivePowerPhaseC
+    # @apparentPowerPhaseA
+    # @apparentPowerPhaseB
+    # @apparentPowerPhaseC
+    # @voltagePhaseA
+    # @voltagePhaseB
+    # @voltagePhaseC
+    # @currentPhaseA
+    # @currentPhaseB
+    # @currentPhaseC
+    # @activeEnergyPhaseA
+    # @activeEnergyPhaseB
+    # @activeEnergyPhaseC
+    # @lineToLineVoltagePhaseAB
+    # @lineToLineVoltagePhaseBC
+    # @lineToLineVoltagePhaseAC
+
+    # it "should return correct JSON" do
+    #   id = "meter-01"
+    #   value = rand
+    #   time = Time.now
+    #   simple_measurement.id(id)
+    #   simple_measurement.timestamp(time)
+    #   simple_measurement.value(value)
+
+    #   json = "{id: #{simple_measurement.id},
+    #           tsISO8601: #{simple_measurement.timestamp},
+    #           value: #{value}
+    #           }"
+    #   expect(simple_measurement.json).to be_equal json
+    # end
   end
 
   let(:dummy_config) { Config.new(nil, nil, nil) }
