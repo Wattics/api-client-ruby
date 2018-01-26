@@ -39,11 +39,12 @@ RSpec.describe ApiClientRuby do
       id = "water-01"
       value = rand
       time = Time.now
+      wattics_time = time.strftime('%Y-%m-%dT%H:%M:%S.%L%:z')
       simple_measurement.id = id
       simple_measurement.value = value
       simple_measurement.timestamp = time
-      json = {id: simple_measurement.id,
-              tsISO8601: simple_measurement.timestamp,
+      json = {id: id,
+              tsISO8601: wattics_time,
               value: value
               }.to_json
       expect(simple_measurement.json).to eq json
@@ -196,7 +197,6 @@ RSpec.describe ApiClientRuby do
       id = "meter-01"
       time = Time.now
       wattics_time = time.strftime('%Y-%m-%dT%H:%M:%S.%L%:z')
-      value = rand
       active_power_phase_a = rand
       active_power_phase_b = rand
       active_power_phase_c = rand
