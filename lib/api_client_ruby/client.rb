@@ -4,7 +4,7 @@ class Client
   def send(measurement, config)
     response = RestClient::Request.execute(method: :post, url: config.uri,
                                            user: config.username, password: config.password,
-                                           payload: measurement.json, timeout: 2)
+                                           payload: measurement.json)
     return response
   rescue RestClient::ExceptionWithResponse => e
     return  e.response
