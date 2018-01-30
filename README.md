@@ -109,7 +109,7 @@ $ Server Response: Failed to open TCP connection to web-collector.wattics.com:44
 
 
 
-## Parallel Senderes
+## Parallel Sends
 
 When running `agent.get_instance`, it will spin twice as many as virtual processors as system has available.
 *Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
