@@ -114,7 +114,7 @@ $ Server Response: Failed to open TCP connection to web-collector.wattics.com:44
 When running `agent.get_instance`, it will spin twice as many as virtual processors as system has available.
 *Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
 
-In some cases you may want to limit how many processes are created. You can speficy this when creating an instance of the agent. `agent.get_instance(number of processors)`
+In some cases you may want to limit how many processes are created. You can specify this when creating an instance of the agent. `agent.get_instance(number of processors)`
 In case you execed the maximum limit, it will set for to the defult maximum.
 
 ```ruby
