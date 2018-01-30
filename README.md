@@ -12,9 +12,7 @@ $ cd api-client-ruby
 $ gem install api_client_ruby
 ```
 
-## Usage
-
-### Getting started
+## Getting started
 
 Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may carry the lost of data.
 
