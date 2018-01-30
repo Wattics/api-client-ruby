@@ -97,12 +97,12 @@ end
 
 In case there is an error sending a point data, the gem will keep trying until it is sent. Errors will be logged to the terminal. See some common errors.
 
-Not register or wrong credentials.
+Not registered or wrong credentials.
 ```sh
 $ Server Response: HTTP Status 401 - Full authentication is required to access this resource
 ```
 
-Interet connection down.
+Internet connection down.
 ```sh
 $ Server Response: Failed to open TCP connection to web-collector.wattics.com:443 (getaddrinfo: nodename nor servname provided, or not known)
 ```
@@ -115,7 +115,7 @@ When running `agent.get_instance`, it will spin twice as many as virtual process
 *Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
 
 In some cases you may want to limit how many processes are created. You can specify this when creating an instance of the agent. `agent.get_instance(number of processors)`
-In case you execed the maximum limit, it will set for to the defult maximum.
+In case you exceed the maximum limit, it will set for to the default maximum.
 
 ```ruby
 # Limiting send processes to two.
