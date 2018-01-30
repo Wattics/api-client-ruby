@@ -1,6 +1,6 @@
 # Wattics API Client Ruby
 
-A Ruby client side API that connection with Wattics plataform for sending measuarements or to the platform.
+A Ruby client side API that simplifys sending larger amouts of data to Wattics plaform.
 
 ## Installation
 
@@ -74,22 +74,9 @@ agent.send(electric_measurements, config)
 agent.wait_until_last
 ```
 
-## Parallel Senderes
-
-'agent.get_instance' will spin twice as many as virtual processors as system has available. So if your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.
-
-In some cases you may want to limit how many processes are created. You can speficy this when creating an instance of the agent. `agent.get_instance(number of processors)`
-In case you execed the the maximum limit, it will only have twice as many virtual processors available.
-
-```ruby
-# Limiting send processes to two.
-
-agent.get_instance(2)
-```
-
 ## Handlers for callbacks
 
-After sending the data you it is important to check if all data was send correcly and see if there was an error. For this you have access to the each `measurment` and `response`. You can set different handlers for the callbacks using the `add_measurement_sent_handler` inside the agent.
+After sending the data you may want to check if all data was sent correcly. For this you have access to `measurment`  and `response`. You can set different handlers for the callbacks using the `add_measurement_sent_handler` inside the agent. You can set as many handles as you like.
 
 Priting to the console and saving a to a file.
 
@@ -108,20 +95,18 @@ agent.add_measurement_sent_handler do
   }
 ```
 
-You can set as many handles as you like.
+## Parallel Senderes
 
+When running `agent.get_instance`, it will spin twice as many as virtual processors as system has available. *Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
 
+In some cases you may want to limit how many processes are created. You can speficy this when creating an instance of the agent. `agent.get_instance(number of processors)`
+In case you execed the maximum limit, it will set for to the defult maximum.
 
+```ruby
+# Limiting send processes to two.
 
-
-
-
-
-
-
-
-
-
+agent.get_instance(2)
+```
 
 
 
