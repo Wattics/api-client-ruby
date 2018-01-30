@@ -95,7 +95,7 @@ end
 
 ## Errors
 
-In case there is an error sending a data, the gem will keep trying until it is sent. Errors will logged to the terminal. See some common erros.
+In case there is an error sending a point data, the gem will keep trying until it is sent. Errors will logged to the terminal. See some common erros.
 
 Not register or wrong credentials.
 ```sh
