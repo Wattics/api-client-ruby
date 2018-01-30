@@ -16,7 +16,7 @@ $ gem install api_client_ruby
 
 ### Getting started
 
-Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all the sends, missing this command may carry the lost of data.
+Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may carry the lost of data.
 
 ```ruby
 require 'api_client_ruby'
@@ -52,7 +52,7 @@ agent.wait_until_last
 
 ## Groups of measurments
 
-You may also want send array of measurments that has already been collected.
+You may also want send groups of measurments.
 
 ```ruby
 measurements = [simple_measurement1, electricity_measurement1, simple_measurement2, ...]
@@ -61,7 +61,6 @@ agent.send(measurements, config)
 
 agent.wait_until_last
 ```
-Another example,
 
 ```ruby
 
@@ -76,7 +75,7 @@ agent.wait_until_last
 
 ## Handlers for callbacks
 
-After sending the data you may want to check if all data was sent correcly. For this you have access to `measurment`  and `response`. You can set different handlers for the callbacks using the `add_measurement_sent_handler` inside the agent. You can set as many handles as you like.
+After sending the data you may want to check if it was sent correcly. For this you have access to `measurment`  and `response`. You can set different handlers for the callbacks using `add_measurement_sent_handler`. You can set as many handles as you like.
 
 Priting to the console and saving a to a file.
 
@@ -95,9 +94,28 @@ agent.add_measurement_sent_handler do
   }
 ```
 
+## Errors
+
+In case there is an error sending a data, the gem will keep trying until it is sent. Errors will logged to the terminal.
+
+Follows some common erros.
+
+Not register or wrong credentials.
+```sh
+$ Server Response: HTTP Status 401 - Full authentication is required to access this resource
+```
+
+Interet connection down.
+```sh
+$ Server Response: Failed to open TCP connection to web-collector.wattics.com:443 (getaddrinfo: nodename nor servname provided, or not known)
+```
+
+
+
 ## Parallel Senderes
 
-When running `agent.get_instance`, it will spin twice as many as virtual processors as system has available. *Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
+When running `agent.get_instance`, it will spin twice as many as virtual processors as system has available.
+*Ex. If your system is a dual core, and has 4 virtual processors, the gem will spin up 8 parallel send processes for maximum performance.*
 
 In some cases you may want to limit how many processes are created. You can speficy this when creating an instance of the agent. `agent.get_instance(number of processors)`
 In case you execed the maximum limit, it will set for to the defult maximum.
