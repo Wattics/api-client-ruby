@@ -14,7 +14,7 @@ $ gem install api_client_ruby
 
 ## Getting started
 
-Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may carry the lost of data.
+Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may cause the loss of data.
 
 ```ruby
 require 'api_client_ruby'
@@ -48,9 +48,9 @@ agent.send(electricity_measurement, config)
 agent.wait_until_last
 ```
 
-## Groups of measurments
+## Groups of measurements
 
-You may also want send groups of measurments.
+You may also want send groups of measurements.
 
 ```ruby
 measurements = [simple_measurement1, electricity_measurement1, simple_measurement2, ...]
