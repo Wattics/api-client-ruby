@@ -1,6 +1,6 @@
 # Wattics API Client Ruby
 
-A Ruby client side API that simplifys sending larger amouts of data to Wattics plaform.
+A Ruby client side API that simplifies sending larger amounts of data to Wattics platform.
 
 ## Installation
 
@@ -75,7 +75,7 @@ agent.wait_until_last
 
 After sending the data you may want to check if it was sent correcly. For this you have access to `measurment`  and `response`. You can set different handlers for the callbacks using `add_measurement_sent_handler`. You can set as many handlers as you like.
 
-Priting to the console and saving a to a file.
+Priting to the console and saving to a file.
 
 ```ruby
 agent.add_measurement_sent_handler do
