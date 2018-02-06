@@ -1,15 +1,15 @@
-require 'api_client_ruby/version'
+require 'api-client-ruby/version'
 
-require 'api_client_ruby/measurements'
-require 'api_client_ruby/blocking_queue'
-require 'api_client_ruby/config'
-require 'api_client_ruby/client'
-require 'api_client_ruby/measurement_with_config'
+require 'api-client-ruby/measurements'
+require 'api-client-ruby/blocking_queue'
+require 'api-client-ruby/config'
+require 'api-client-ruby/client'
+require 'api-client-ruby/measurement_with_config'
 
-require 'api_client_ruby/processor'
-require 'api_client_ruby/processor_pool'
+require 'api-client-ruby/processor'
+require 'api-client-ruby/processor_pool'
 
-require 'api_client_ruby/agent'
+require 'api-client-ruby/agent'
 
 module ApiClientRuby
 end

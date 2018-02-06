@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'api_client_ruby'
+require 'api-client-ruby'
 require 'securerandom'
 
 RSpec.configure do |config|

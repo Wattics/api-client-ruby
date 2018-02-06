@@ -1,4 +1,4 @@
-require 'api_client_ruby'
+require 'api-client-ruby'
 require 'concurrent'
 require 'json'
 require 'time'

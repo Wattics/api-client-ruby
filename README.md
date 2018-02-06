@@ -9,7 +9,7 @@ You will need a local copy of the files. Download them from this repository and 
 ```sh
 $ git clone git@github.com:Wattics/api-client-ruby.git
 $ cd api-client-ruby
-$ gem install api_client_ruby
+$ gem install api-client-ruby
 ```
 
 ## Getting started
@@ -17,7 +17,7 @@ $ gem install api_client_ruby
 Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may cause the loss of data.
 
 ```ruby
-require 'api_client_ruby'
+require 'api-client-ruby'
 
 agent = Agent.get_instance
 

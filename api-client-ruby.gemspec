@@ -1,7 +1,7 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "api_client_ruby/version"
+require "api-client-ruby/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "wattics-api-client"
