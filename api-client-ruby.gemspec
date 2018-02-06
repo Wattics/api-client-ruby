@@ -1,17 +1,17 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "api-client-ruby/version"
+require "wattics-api-client/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "wattics-api-client"
-  spec.version       = ApiClientRuby::VERSION
+  spec.version       = WatticsApiClient::VERSION
   spec.authors       = ["Juan Couso"]
   spec.email         = ["support@wattics.com"]
 
   spec.summary       = "This gem connects with Wattics API"
   spec.description   = "The gem connects with the wattics API to send over data to the wattics plataform"
-  spec.homepage      = "https://github.com/Wattics/api-client-ruby"
+  spec.homepage      = "https://github.com/Wattics/wattics-api-client"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

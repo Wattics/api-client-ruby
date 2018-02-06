@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'api-client-ruby'
+require 'wattics-api-client'
 require 'securerandom'
 
 RSpec.configure do |config|

@@ -1,10 +1,10 @@
-require 'api-client-ruby'
+require 'wattics-api-client'
 require 'concurrent'
 require 'json'
 require 'time'
 require 'pry-byebug'
 
-RSpec.describe ApiClientRuby do
+RSpec.describe WatticsApiClient do
   before(:all) do
     class ClientFactory
       def create_client

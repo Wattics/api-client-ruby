@@ -4,12 +4,12 @@ A Ruby client side API that simplifies sending larger amounts of data to Wattics
 
 ## Installation
 
-You will need a local copy of the files. Download them from this repository and install.
+Add the gem to you Gemfile and run bundle install.
 
-```sh
-$ git clone git@github.com:Wattics/api-client-ruby.git
-$ cd api-client-ruby
-$ gem install api-client-ruby
+```
+gem 'wattics-api-client'
+
+bundle install
 ```
 
 ## Getting started
@@ -17,7 +17,7 @@ $ gem install api-client-ruby
 Here is an example code to get you started with the API. Remember to use a valid username and password. **Important:** `wait_until_last` must be included at the end of all sends, missing this command may cause the loss of data.
 
 ```ruby
-require 'api-client-ruby'
+require 'wattics-api-client'
 
 agent = Agent.get_instance
 
