@@ -4,24 +4,24 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "api_client_ruby/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "api_client_ruby"
+  spec.name          = "wattics-api-client"
   spec.version       = ApiClientRuby::VERSION
   spec.authors       = ["Juan Couso"]
   spec.email         = ["juan.couso@gmail.com"]
 
   spec.summary       = "This gem connects with Wattics API"
   spec.description   = "The gem connects with the wattics API to send over data to the wattics plataform"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/Wattics/api-client-ruby"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
-  end
+  # if spec.respond_to?(:metadata)
+  #   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  # else
+  #   raise "RubyGems 2.0 or newer is required to protect against " \
+  #     "public gem pushes."
+  # end
 
   spec.files         = Dir['lib/**/*.rb']
 
