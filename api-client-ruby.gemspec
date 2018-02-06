@@ -6,7 +6,7 @@ require "wattics-api-client/version"
 Gem::Specification.new do |spec|
   spec.name          = "wattics-api-client"
   spec.version       = WatticsApiClient::VERSION
-  spec.authors       = ["Juan Couso"]
+  spec.authors       = ["Wattics"]
   spec.email         = ["support@wattics.com"]
 
   spec.summary       = "This gem connects with Wattics API"
