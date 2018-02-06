@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "wattics-api-client"
   spec.version       = ApiClientRuby::VERSION
   spec.authors       = ["Juan Couso"]
-  spec.email         = ["juan.couso@gmail.com"]
+  spec.email         = ["support@wattics.com"]
 
   spec.summary       = "This gem connects with Wattics API"
   spec.description   = "The gem connects with the wattics API to send over data to the wattics plataform"
