@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "This gem connects with Wattics API"
   spec.description   = "The gem connects with the wattics API to send over data to the wattics plataform"
-  spec.homepage      = "https://github.com/Wattics/wattics-api-client"
+  spec.homepage      = "https://github.com/Wattics/api-client-ruby"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
