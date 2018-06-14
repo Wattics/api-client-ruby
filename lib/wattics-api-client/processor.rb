@@ -8,8 +8,8 @@ class Processor
     @semaphore = Concurrent::Semaphore.new(0)
     @is_sending = false
     @mutex = Mutex.new
-    @logger = Logger.new(STDOUT)
-    @logger.level = Logger::WARN
+    @logger = defined?(Rails).nil? ? Logger.new('| tee wattics_api.log') : Rails.logger
+    @logger.level = Logger::WARN if defined?(Rails).nil?
   end
 
   def process(measurement_with_config)
@@ -48,7 +48,7 @@ class Processor
           end
           break
         rescue StandardError => e
-          @logger.error("Could not send #{@measurement}, Server Response: #{e}")
+          @logger.error("Could not send #{@measurement}, Error: #{e}")
           sleep 60
         end
       end
