@@ -44,11 +44,22 @@ class Processor
             @agent.report_sent_measurement(@measurement, @response)
           end
           if !@agent.nil? && @response.code >= 400
-            @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+            if defined?(Rails).nil?
+              @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+            else
+              Rails.logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+              print "Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+            end
           end
           break
         rescue StandardError => e
-          @logger.error("Could not send #{@measurement}, Server Response: #{e}")
+
+          if defined?(Rails).nil?
+            @logger.error("Could not send #{@measurement}, Error: #{e}")
+          else
+            Rails.logger.error("Could not send #{@measurement}, Error: #{e}")
+            print "Could not send #{@measurement}, Error: #{e}"
+          end
           sleep 60
         end
       end
@@ -57,6 +68,11 @@ class Processor
       end
     end
   rescue StandardError => e
-    @logger.error("Thread stopped unexpectedly: #{e.message}")
+    if defined?(Rails).nil?
+      @logger.error("Thread stopped unexpectedly: #{e.message}")
+    else
+      Rails.logger.error("Thread stopped unexpectedly: #{e.message}")
+      puts "Thread stopped unexpectedly: #{e.message}"
+    end
   end
 end
