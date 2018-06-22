@@ -43,13 +43,16 @@ class Processor
           if !@agent.nil? && @response.code < 400
             @agent.report_sent_measurement(@measurement, @response)
           end
+
           if !@agent.nil? && @response.code >= 400
+
             if defined?(Rails).nil?
               @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
             else
               Rails.logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
-              print "Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+              puts "Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
             end
+
           end
           break
         rescue StandardError => e
@@ -58,8 +61,9 @@ class Processor
             @logger.error("Could not send #{@measurement}, Error: #{e}")
           else
             Rails.logger.error("Could not send #{@measurement}, Error: #{e}")
-            print "Could not send #{@measurement}, Error: #{e}"
+            puts "Could not send #{@measurement}, Error: #{e}"
           end
+
           sleep 60
         end
       end
