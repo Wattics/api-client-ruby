@@ -47,10 +47,10 @@ class Processor
           if !@agent.nil? && @response.code >= 400
 
             if defined?(Rails).nil?
-              @logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
+              @logger.error("Could not send #{@measurement}, Server Response: #{@response.body}")
             else
-              Rails.logger.error("Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}")
-              puts "Could not send #{@measurement}, Server Response: #{Nokogiri::HTML(@response.body).xpath('//h1').text}"
+              Rails.logger.error("Could not send #{@measurement}, Server Response: #{@response.body}")
+              puts "Could not send #{@measurement}, Server Response: #{@response.body}"
             end
 
           end
