@@ -369,5 +369,19 @@ RSpec.describe WatticsApiClient do
       end
       $count_down_latch.wait
     end
+
+    it 'should work with 500 response' do
+      class MockClient
+        def send(measurement, _config)
+          MockResponse500.new
+        end
+      end
+      agent = Agent.get_instance(2)
+      measurement_factory = SimpleMeasurementFactory.get_instance
+      agent.send(measurement_factory.build, dummy_config)
+      th = Thread.new { agent.wait_until_last }
+      sleep 1 #wait for thread to send
+      expect(th.status).to be false
+    end
   end
 end

@@ -197,3 +197,12 @@ class MockResponse
     200
   end
 end
+
+class MockResponse500
+  def code
+    500
+  end
+  def body
+    "error"
+  end
+end

@@ -45,7 +45,7 @@ class Processor
           end
 
           if !@agent.nil? && @response.code >= 400
-
+            @agent.report_sent_measurement(@measurement, @response)
             if defined?(Rails).nil?
               @logger.error("Could not send #{@measurement}, Server Response: #{@response.body}")
             else

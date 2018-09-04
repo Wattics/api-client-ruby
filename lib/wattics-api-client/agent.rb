@@ -103,7 +103,8 @@ class Agent
   end
 
   def report_sent_measurement(measurement, response)
-    @sent_measurements_with_context << [measurement, response]
+    #Dont need to send to the measurement handler, <=400 erros are reported on the processor
+    @sent_measurements_with_context << [measurement, response] if response.code <= 400
     @wait_semaphore.acquire
   end
 
